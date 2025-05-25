@@ -20,9 +20,18 @@ public class User {
     private int createdBy;
     private String avatar;
     private String changeHistory;
+    private int roleId;
 
     public String getChangeHistory() {
         return changeHistory;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public void setChangeHistory(String changeHistory) {
