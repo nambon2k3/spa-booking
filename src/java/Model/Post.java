@@ -23,6 +23,7 @@ public class Post {
     private int createdBy;
     private String authorName; 
     private String imgURL;
+    private String categoryName;
 
     // Constructor
     public Post(int id, int categoryId, String title, String content, boolean isDeleted, Timestamp createdAt, int createdBy, String authorName) {
@@ -37,6 +38,7 @@ public class Post {
     }
 
     public Post() {
+        this.categoryName = new CategoryDAO().getCategoryNameById(categoryId);
     }
 
     public Post(int id, int categoryId, String title, String content, boolean isDeleted, Timestamp createdAt, String authorName) {
@@ -77,6 +79,7 @@ public class Post {
     public String getTitle() {
         return title;
     }
+    
 
     public void setTitle(String title) {
         this.title = title;
@@ -132,6 +135,10 @@ public class Post {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
     
 

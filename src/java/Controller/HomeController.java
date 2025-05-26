@@ -9,6 +9,14 @@ package Controller;
 //import Model.Post;
 //import Model.Product;
 //import Model.Slider;
+import DAO.CategoryDAO;
+import DAO.FeedbackDAO;
+import DAO.PostDAO;
+import DAO.SpaServiceDAO;
+import Model.Category;
+import Model.Feedback;
+import Model.Post;
+import Model.SpaService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -63,28 +71,23 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String pageParam = request.getParameter("page");
-        int pageNumber = pageParam == null ? 1 : Integer.parseInt(pageParam);
-        int pageSize = 12;
+         // Retrieve data from DAOs
+    List<Category> categories = new CategoryDAO().getTopCategories(6);
+    List<SpaService> spaServices = new SpaServiceDAO().getTopSpaServices(4);
+    List<Feedback> feedbacks = new FeedbackDAO().getRecentFeedbacks(6);
+    List<Post> posts = new PostDAO().getTopPosts(6);
+    for(Category c: categories){
+        System.out.println(c.getCategoryName());
+    }
 
-//        List<Product> products = new ProductDAO().getProductsByPage(pageNumber, pageSize);
-//        int total = new ProductDAO().countTotalProducts();
-//        int endPage = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
-//        
-//        
-//        List<Slider> sliders = new SliderDAO().getAllSliders();
-//        
-//        PostDAO postDAO = new PostDAO();
-//        
-//        List<Post> posts = postDAO.getPosts(1, 6, "", "", "", "", "", "", "No");
-//        System.out.println(posts);
-//        
-//        request.setAttribute("products", products);
-//        request.setAttribute("posts", posts);
-//        request.setAttribute("sliders", sliders);
-//        request.setAttribute("endPage", endPage);
-//        request.setAttribute("page", pageNumber);
-        request.getRequestDispatcher("/Home.jsp").forward(request, response);
+    // Set attributes for JSP
+    request.setAttribute("categories", categories);
+    request.setAttribute("spaServices", spaServices);
+    request.setAttribute("feedbacks", feedbacks);
+    request.setAttribute("posts", posts);
+
+    // Forward to JSP
+    request.getRequestDispatcher("/Home.jsp").forward(request, response);
     }
 
     /**

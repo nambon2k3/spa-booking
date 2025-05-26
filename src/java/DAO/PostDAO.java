@@ -315,6 +315,33 @@ public class PostDAO extends DBContext {
         }
         return totalPosts;
     }
+
+    public List<Post> getTopPosts(int limit) {
+    List<Post> list = new ArrayList<>();
+    String sql = "SELECT TOP " + limit + " * FROM Post WHERE IsDeleted = 0 ORDER BY CreatedAt DESC";
+    try (PreparedStatement statement = connection.prepareStatement(sql);
+         ResultSet rs = statement.executeQuery()) {
+
+        while (rs.next()) {
+            int cateId = rs.getInt("CategoryID");
+            String categoryName = new CategoryDAO().getCategoryNameById(cateId); // Fetch cate details
+
+            Post post = new Post();
+            post.setId(rs.getInt("Id"));
+            post.setContent(rs.getString("Content"));
+            post.setTitle(rs.getString("Title"));
+            post.setCategoryName(categoryName);
+            post.setCreatedAt(rs.getTimestamp("CreatedAt"));
+            post.setImgURL(rs.getString("imgURL"));
+
+            list.add(post);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
     
     
 

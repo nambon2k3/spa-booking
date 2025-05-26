@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 public class Category {
     private int ID;
     private String categoryName;
+    private String categoryImage;
     private boolean isDeleted;
     private Timestamp createdAt;
     private int createdBy;
@@ -21,14 +22,29 @@ public class Category {
     public Category() {
     }
 
+    public Category(int ID, String categoryName, String categoryImage) {
+        this.ID = ID;
+        this.categoryName = categoryName;
+        this.categoryImage = categoryImage;
+    }
+
     public Category(int ID, String categoryName) {
         this.ID = ID;
         this.categoryName = categoryName;
     }
-
     public int getID() {
         return ID;
     }
+
+    public String getCategoryImage() {
+        return categoryImage;
+    }
+
+    public void setCategoryImage(String categoryImage) {
+        this.categoryImage = categoryImage;
+    }
+    
+    
 
     public void setID(int ID) {
         this.ID = ID;
