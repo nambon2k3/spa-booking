@@ -76,9 +76,7 @@ public class HomeController extends HttpServlet {
     List<SpaService> spaServices = new SpaServiceDAO().getTopSpaServices(4);
     List<Feedback> feedbacks = new FeedbackDAO().getRecentFeedbacks(6);
     List<Post> posts = new PostDAO().getTopPosts(6);
-    for(Category c: categories){
-        System.out.println(c.getCategoryName());
-    }
+    
 
     // Set attributes for JSP
     request.setAttribute("categories", categories);

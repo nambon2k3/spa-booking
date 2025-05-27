@@ -117,9 +117,9 @@
                     <c:forEach var="cat" items="${categories}">
                         <div class="col-lg-4 col-sm-6 p-2" >
                             <div class="service-item" style=" height: 270px; background-image: url('${cat.categoryImage}'); background-size: cover; background-repeat: no-repeat;
-                    background-position: center;">
+                                 background-position: center;">
                                 <h4 style="background-color: rgba(0, 0, 0, 0.2); margin-top: 180px; padding-top: 10px; padding-bottom: 10px; color: white">${cat.categoryName}</h4>
-                                
+
                             </div>
                         </div>
                     </c:forEach>
@@ -186,11 +186,19 @@
                                     <p>${fb.content}</p>
                                     <div class="ti-author">
                                         <div class="rating">
-                                            <i class="icon_star"></i>
-                                            <i class="icon_star"></i>
-                                            <i class="icon_star"></i>
-                                            <i class="icon_star"></i>
-                                            <i class="icon_star-half_alt"></i>
+                                            <c:forEach var="i" begin="1" end="5">
+                                                <c:choose>
+                                                    <c:when test="${i <= fb.rating}">
+                                                        <i class="icon_star"></i>
+                                                    </c:when>
+                                                    <c:when test="${i - fb.rating < 1}">
+                                                        <i class="icon_star-half_alt"></i>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <i class="icon_star_alt"></i>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
                                         </div>
                                         <h5> - ${fb.user.fullname}</h5>
                                     </div>
