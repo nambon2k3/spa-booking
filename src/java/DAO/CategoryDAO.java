@@ -68,4 +68,31 @@ public class CategoryDAO extends DBContext{
 
         return categories;
     }
+
+    public List<Category> getTopCategories(int i) {
+        List<Category> categories = new ArrayList<>();
+    String sql = "SELECT TOP " + i + " * FROM Category WHERE IsDeleted = 0";
+    try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("ID"),
+                        rs.getString("Name"),
+                        rs.getString("Image")
+                );
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    return categories;
+    }
+    
+    public static void main(String[] args) {
+        List<Category> list = new CategoryDAO().getTopCategories(6);
+        for(Category c :list){
+            System.out.println(c.getCategoryName());
+        }
+    }
 }

@@ -2,6 +2,22 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/PostDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/SpaService.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/User.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/SpaServiceDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/Post.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/UserDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/FeedbackDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/web/Home.jsp</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/CategoryDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Controller/HomeController.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/Feedback.java</file>
+        </group>
+>>>>>>> a84746e9847c5cd17022cc517ed7565dba0437ad
     </open-files>
 </project-private>
