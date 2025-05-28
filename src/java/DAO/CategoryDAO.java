@@ -95,4 +95,31 @@ public class CategoryDAO extends DBContext{
             System.out.println(c.getCategoryName());
         }
     }
+    
+    
+    public Category getCategoriesById(int categoryId) {
+        // SQL query to retrieve category name by category ID
+            String query = "SELECT * FROM [dbo].[Category] WHERE ID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query);){
+            statement.setInt(1, categoryId);
+
+            // Execute the query
+            ResultSet rs = statement.executeQuery();
+
+            // Check if result set is not empty
+            if (rs.next()) {
+                // Retrieve category name from result set
+                return new Category(
+                        rs.getInt("ID"),
+                        rs.getString("Name"),
+                        rs.getString("Image")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle SQLException
+        }
+
+        return null;
+    }
 }

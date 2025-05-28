@@ -9,82 +9,119 @@
         <title>Profile Page</title>
         <!-- Bootstrap CDN -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
+
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="../css/flaticon.css" type="text/css">
+        <link rel="stylesheet" href="../css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/nice-select.css" type="text/css">
+        <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="../css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="../css/style.css" type="text/css">
     </head>
     <body>
-        <div class="container mt-5">
-            <div class="card">
-                <div class="card-header">
-                    Profile
-                </div>
-                <c:if test="${param.success ne null}">
-                    <div class="alert alert-success" role="alert">
-                        Success!
+        <!-- Header Section Begin -->
+        <%@ include file="header.jsp" %>
+        <!-- Header End -->
+
+
+        <!-- Breadcrumb Section Begin -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb-text">
+                            <h2>Your profile</h2>
+                            <div class="bt-option">
+                                <a href="./home.html">Home</a>
+                                <span>Profile</span>
+                            </div>
+                        </div>
                     </div>
-                </c:if>
-                <c:if test="${param.fail ne null}">
-                    <div class="alert alert-danger" role="alert">
-                        Failed!
-                    </div>
-                </c:if>
-                <div class="card-body">
-                    <form id="profileForm" onsubmit="return validateForm()" action="profile" method="post">
-                        <!-- Hidden Fields -->
-                        <input type="hidden" id="id" name="id" value="${user.id}">
-                        <input type="hidden" id="password" name="password" value="${user.password}">
-
-                        <!-- Profile Image -->
-                        <div class="form-group text-center">
-                            <label for="profileImage">Profile Image:</label><br>
-                            <img id="image0" class="w-25" src="${user.avatar}">
-                            <input type="file" class="form-control" id="imageFile0" accept="image/*" onchange="updateImage(0)">
-                            <input type="hidden" class="form-control" id="imageUrl0" name="avatar" value="${user.avatar}">
-                        </div>
-
-                        <!-- Email -->
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" value="${user.email}" readonly>
-                        </div>
-
-                        <!-- Full Name -->
-                        <div class="form-group">
-                            <label for="fullname">Full Name:</label>
-                            <input type="text" class="form-control" id="fullname" name="fullname" value="${user.fullname}" required>
-                        </div>
-
-                        <!-- Gender -->
-                        <div class="form-group">
-                            <label for="gender">Gender:</label>
-                            <select class="form-control" name="gender" id="gender">
-                                <option value="Male" ${user.gender eq 'Male' ? 'selected' : ''}>Male</option>
-                                <option value="Female" ${user.gender eq 'Female' ? 'selected' : ''}>Female</option>
-                            </select>
-                        </div>
-
-                        <!-- Address -->
-                        <div class="form-group">
-                            <label for="address">Address:</label>
-                            <input type="text" class="form-control" id="address" name="address" value="${user.address}" required>
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="form-group">
-                            <label for="phone">Phone:</label>
-                            <input type="tel" class="form-control" id="phone" name="phone" value="${user.phone}" required>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Submit</button>
-
-                        <!-- Go Back Button -->
-                        <button type="button" onclick="window.history.back()" class="btn btn-secondary">Go Back</button>
-
-                        <br>
-                        <a href="change-pass" class="btn btn-warning mt-3">Change password</a>
-                    </form>
                 </div>
             </div>
         </div>
+        <!-- Breadcrumb Section End -->
+
+        <div class="container mb-5" style="margin-bottom: 150px">
+
+            <c:if test="${param.success ne null}">
+                <div class="alert alert-success" role="alert">
+                    Success!
+                </div>
+            </c:if>
+            <c:if test="${param.fail ne null}">
+                <div class="alert alert-danger" role="alert">
+                    Failed!
+                </div>
+            </c:if>
+            <div class="card-body">
+                <form id="profileForm" onsubmit="return validateForm()" action="profile" method="post">
+                    <!-- Hidden Fields -->
+                    <input type="hidden" id="id" name="id" value="${user.id}">
+                    <input type="hidden" id="password" name="password" value="${user.password}">
+
+                    <!-- Profile Image -->
+                    <div class="form-group text-center">
+                        <label for="profileImage">Profile Image:</label><br>
+                        <img id="image0" class="w-25" src="${user.avatar}">
+                        <input type="file" class="form-control" id="imageFile0" accept="image/*" onchange="updateImage(0)">
+                        <input type="hidden" class="form-control" id="imageUrl0" name="avatar" value="${user.avatar}">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="${user.email}" readonly>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="fullname">Full Name:</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname" value="${user.fullname}" required>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select class="form-control" name="gender" id="gender">
+                            <option value="Male" ${user.gender eq 'Male' ? 'selected' : ''}>Male</option>
+                            <option value="Female" ${user.gender eq 'Female' ? 'selected' : ''}>Female</option>
+                        </select>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" name="address" value="${user.address}" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="${user.phone}" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <!-- Go Back Button -->
+                    <button type="button" onclick="window.history.back()" class="btn btn-secondary">Go Back</button>
+
+                    <br>
+                    <a href="change-pass" class="btn btn-warning mt-3">Change password</a>
+                </form>
+            </div>
+        </div>
+                    <!-- Footer Section Begin -->
+        <%@include file="footer.html" %>
+        <!-- Footer Section End -->
 
         <!-- Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

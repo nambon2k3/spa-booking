@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.CategoryDAO;
 import java.math.BigDecimal;
 
 /**
@@ -19,6 +20,7 @@ public class SpaService {
     private boolean isActive;
     private int categoryId;
     private String image;
+    private Category category;
 
     public SpaService() {
     }
@@ -43,6 +45,17 @@ public class SpaService {
     }
 
     // Getters and setters
+
+    public Category getCategory() {
+        return new CategoryDAO().getCategoriesById(categoryId);
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    
+    
+    
 
     public int getId() {
         return id;
