@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="logo">
-                                <a href="./index.html">
+                                <a href="${pageContext.request.contextPath}/home">
                                     <img src="img/logo.png" alt="">
                                 </a>
                             </div>
@@ -77,16 +77,16 @@
                                         <li class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
                                         <li><a href="${pageContext.request.contextPath}/public-services-list">Services</a></li>
                                         <li><a href="./about-us.html">About Us</a></li>
-                                        <li><a href="./pages.html">Pages</a>
+<!--                                        <li><a href="./pages.html">Pages</a>
                                             <ul class="dropdown">
                                                 <li><a href="./room-details.html">Room Details</a></li>
                                                 <li><a href="./blog-details.html">Blog Details</a></li>
                                                 <li><a href="#">Family Room</a></li>
                                                 <li><a href="#">Premium Room</a></li>
                                             </ul>
-                                        </li>
-                                        <li><a href="./blog.html">News</a></li>
-                                        <li><a href="./contact.html">Contact</a></li>
+                                        </li>-->
+                                        <li><a href="${pageContext.request.contextPath}/list-blog">News</a></li>
+<!--                                        <li><a href="./contact.html">Contact</a></li>-->
                                     </ul>
                                 </nav>
                                 <c:if test="${sessionScope.user != null}">

@@ -62,10 +62,10 @@
 <nav class="sidebar">
     <ul>
         <li><a href="dashboard"><i class="fas fa-chart-line mr-2"></i>Dashboard</a></li>
-        <li><a href="product"><i class="fas fa-tshirt mr-2"></i>Product</a></li>
+<!--        <li><a href="product"><i class="fas fa-tshirt mr-2"></i>Product</a></li>
         <li><a href="user"><i class="fas fa-user-friends mr-2"></i>Customers</a></li>
         <li><a href="feedback"><i class="fas fa-comments mr-2"></i>Feedbacks</a></li>
-        <li><a href="slider"><i class="fas fa-images mr-2"></i>Sliders</a></li>
+        <li><a href="slider"><i class="fas fa-images mr-2"></i>Sliders</a></li>-->
         <li><a href="list-post"><i class="fas fa-images mr-2"></i>List Post</a></li>
     </ul>
     <ul class="logout">

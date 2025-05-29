@@ -462,6 +462,7 @@ public class UserDAO {
                 user.setAddress(rs.getString("Address"));
                 user.setPhone(rs.getString("Phone"));
                 user.setIsDeleted(rs.getBoolean("IsDeleted"));
+                user.setRoleId(rs.getInt("RoleId"));
                 user.setCreatedAt(rs.getDate("CreatedAt"));
                 user.setCreatedBy(rs.getInt("CreatedBy"));
                 user.setAvatar(rs.getString("Avatar"));

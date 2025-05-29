@@ -2,15 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Model/Appointment.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/PaymentController.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/DAO/AppointmentDAO.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/public-service-detail.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/LoginControl.java</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/BlogDetailController.java</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/header.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/blog-detail.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/index.html</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/BlogController.java</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/post-detail.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/ChangePasswordControl.java</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/ListPostController.java</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/list-blog.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/marketing-sidebar.jsp</file>
         </group>
-=======
-        <group/>
->>>>>>> d6a8150382d0e8557d976e7abc082ccc4e7df253
     </open-files>
 </project-private>
