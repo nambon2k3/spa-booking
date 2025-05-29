@@ -3,17 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/LoginControl.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/BlogDetailController.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/header.jsp</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/blog-detail.jsp</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/index.html</file>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/BlogController.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/post-detail.jsp</file>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/ChangePasswordControl.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/ListPostController.java</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/list-blog.jsp</file>
-            <file>file:/D:/SP_SU25/spa-booking/web/marketing-sidebar.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/DAO/PostDAO.java</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/Register.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/web/marketing-post.jsp</file>
+            <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/AddPostController.java</file>
         </group>
     </open-files>
 </project-private>

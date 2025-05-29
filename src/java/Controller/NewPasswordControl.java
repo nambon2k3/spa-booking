@@ -84,7 +84,7 @@ public class NewPasswordControl extends HttpServlet {
         request.setAttribute("otp", otp);
         request.setAttribute("email", email);
 
-        request.getRequestDispatcher("NewPassword.jsp").forward(request, response);
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
     }
 
     public boolean isExpired(String dateString) {

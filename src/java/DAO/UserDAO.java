@@ -127,7 +127,7 @@ public class UserDAO {
 
     // Create (Register)
     public boolean registerUser(User user) {
-        String query = "INSERT INTO [User] (Email, Password, Fullname, Gender, Address, Phone, CreatedBy, Avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO [User] (Email, Password, Fullname, Gender, Address, Phone, CreatedBy, Avatar, RoleId, IsDeleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 0)";
         try {
             ps = conn.prepareStatement(query);
             ps.setString(1, user.getEmail());

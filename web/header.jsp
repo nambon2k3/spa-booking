@@ -125,6 +125,11 @@
                 window.location.href = './common/profile'; // Uncomment for actual navigation
 
             }
+            
+            function logout() {
+                window.location.href = '../Spa/logout'; // Uncomment for actual navigation
+
+            }
 
         </script>
     </body>

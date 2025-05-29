@@ -229,7 +229,7 @@
                             <div class="blog-item set-bg" data-setbg="${p.imgURL}">
                                 <div class="bi-text">
                                     <!--<span class="b-tag">${p.categoryName}</span>-->
-                                    <h4><a href="#">${p.title}</a></h4>
+                                    <h4><a href="./blog-detail?id=${p.id}">${p.title}</a></h4>
                                     <div class="b-time"><i class="icon_clock_alt"></i><fmt:formatDate value="${p.createdAt}" pattern="dd MMMM, yyyy" /></div>
                                 </div>
                             </div>
