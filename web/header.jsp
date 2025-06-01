@@ -25,6 +25,7 @@
                 box-shadow: 0 2px 10px rgba(0,0,0,0.15);
                 width: 150px;
                 z-index: 999;
+                width: fit-content
             }
 
             .user-menu ul {
@@ -37,7 +38,7 @@
                 padding: 12px 16px;
                 cursor: pointer;
                 transition: background 0.2s;
-                text-align: center
+                text-align: left
             }
 
             .user-menu li:hover {
@@ -105,6 +106,9 @@
                                         <li onclick="viewProfile()">
                                             <i class="fas fa-user"></i> Profile
                                         </li>
+                                        <li onclick="viewHistory()">
+                                            ⟳ History Booking
+                                        </li>
                                         <li onclick="logout()">
                                             <i class="fas fa-sign-out-alt"></i> Logout
                                         </li>
@@ -129,6 +133,10 @@
             function logout() {
                 window.location.href = '../Spa/logout'; // Uncomment for actual navigation
 
+            }
+            
+            function viewHistory() {
+                window.location.href = '../Spa/history-booking';
             }
 
         </script>

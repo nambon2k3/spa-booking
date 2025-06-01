@@ -9,5 +9,5 @@ package Model;
  * @author Legion
  */
 public enum AppointmentStatus {
-    Pending, Success, Expired
+    Pending, Success, Expired, Cancelled
 }

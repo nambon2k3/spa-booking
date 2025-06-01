@@ -21,6 +21,17 @@ public class User {
     private String avatar;
     private String changeHistory;
     private int roleId;
+    private String roleString;
+
+    public String getRoleString() {
+        return roleString;
+    }
+
+    public void setRoleString(String roleString) {
+        this.roleString = roleString;
+    }
+    
+    
 
     public String getChangeHistory() {
         return changeHistory;

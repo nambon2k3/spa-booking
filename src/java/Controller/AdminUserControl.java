@@ -46,7 +46,7 @@ public class AdminUserControl extends HttpServlet {
         Boolean status = (statusString==null || statusString.isEmpty()) ? null : Boolean.parseBoolean(statusString);
 
         // Perform filtering based on the provided parameters
-        List<User> filteredStaffList = userDAO.getFilteredStaff(fullName, email, phone, role, gender, status, pageNumber, pageSize);
+        List<User> filteredStaffList = userDAO.getFilteredStaff(fullName, email, phone, 1, gender, status, pageNumber, pageSize);
 
         // Get total number of users matching the filter criteria
         int totalStaffs = userDAO.getFilteredStaff(fullName, email, role, gender, status).size();
@@ -86,7 +86,7 @@ public class AdminUserControl extends HttpServlet {
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        int role = Integer.parseInt(request.getParameter("role"));
+        int role = 1;
         boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
@@ -126,7 +126,7 @@ public class AdminUserControl extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
-        int role = Integer.parseInt(request.getParameter("role"));
+        int role = 1;
         boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");

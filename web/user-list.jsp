@@ -19,7 +19,7 @@
         <%@ include file="admin-sidebar.jsp" %>
 
         <div class="mt-5 main-content">
-            <h2>Staff List</h2>
+            <h2>Customer List</h2>
 
 
             <c:if test="${param.success ne null}">
@@ -47,16 +47,7 @@
                     <input type="text" class="form-control" name="phone" placeholder="Phone">
                 </div>
 
-                <div class="form-group mr-2">
-                    <select class="form-control" name="role">
-                        <option value="">Select Role</option>
-                        <option value="1">Admin</option>
-                        <option value="2">Marketing</option>
-                        <option value="3">Sale</option>
-                        <option value="4">Sale leader</option>
-                        <option value="6">Inventory</option>
-                    </select>
-                </div>
+                
                 <div class="form-group mr-2">
                     <select class="form-control" name="gender">
                         <option value="">Select Gender</option>
@@ -82,7 +73,6 @@
                         <th>ID</th>
                         <th>Full Name</th>
                         <th>Email</th>
-                        <th>Role</th>
                         <th>Gender</th>
                         <th>Address</th>
                         <th>Phone</th>
@@ -96,7 +86,6 @@
                             <td>${user.id}</td>
                             <td>${user.fullname}</td>
                             <td>${user.email}</td>
-                            <td>${user.roleString}</td>
                             <td>${user.gender}</td>
                             <td>${user.address}</td>
                             <td>${user.phone}</td>
@@ -151,36 +140,27 @@
                                 <input type="hidden" name="userId" value="${user.id}">
                                 <div class="form-group">
                                     <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" name="fullName" value="${user.fullname}" readonly>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" value="${user.fullname}" >
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="${user.getEmail()}" readonly>
                                 </div>
-                                <div class="form-group">
-                                    <label for="role">Role</label>
-                                    <select class="form-control" id="role" name="role">
-                                        <option value="1" ${user.roleString eq "Admin" ? "selected" : ""}>Admin</option>
-                                        <option value="2" ${user.roleString eq "Marketing" ? "selected" : ""}>Marketing</option>
-                                        <option value="3" ${user.roleString eq "Sale" ? "selected" : ""}>Sale</option>
-                                        <option value="4" ${user.roleString eq "SaleLeader" ? "selected" : ""}>Sale leader</option>
-                                        <option value="6" ${user.roleString eq "Inventory" ? "selected" : ""}>Inventory</option>
-                                    </select>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label for="gender">Gender</label>
-                                    <select class="form-control" id="gender" name="gender" readonly>
+                                    <select class="form-control" id="gender" name="gender" >
                                         <option value="true" ${user.gender eq 'Male' ? "selected" : ""}>Male</option>
                                         <option value="false" ${user.gender eq 'Female' ? "selected" : ""}>Female</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" value="${user.getAddress()}" readonly>
+                                    <input type="text" class="form-control" id="address" name="address" value="${user.getAddress()}" >
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" value="${user.getPhone()}" readonly>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="${user.getPhone()}" >
                                 </div>
                                 <div class="form-group">
                                     <label for="imageUrl">Image</label>
@@ -218,7 +198,6 @@
                             <p><strong>ID:</strong> ${user.id}</p>
                             <p><strong>Full Name:</strong> ${user.fullname}</p>
                             <p><strong>Email:</strong> ${user.getEmail()}</p>
-                            <p><strong>Role:</strong> ${user.getRole()}</p>
                             <p><strong>Gender:</strong> ${user.gender}</p>
                             <p><strong>Address:</strong> ${user.getAddress()}</p>
                             <p><strong>Phone:</strong> ${user.getPhone()}</p>
