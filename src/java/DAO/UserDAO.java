@@ -512,8 +512,34 @@ public class UserDAO {
             e.printStackTrace();
             // Handle exception properly
         }
+        
+        
+        
 
         return users;
+    }
+    
+    public int getTotalUsers() {
+        String query = "SELECT COUNT(*) AS total FROM [User]";
+        int total = 0;
+        try {
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Error in getTotalUsers", e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                // Do not close conn here since it's initialized in constructor and reused
+            } catch (SQLException e) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Error closing resources", e);
+            }
+        }
+        return total;
     }
 
     private void closeResources() {
