@@ -50,6 +50,10 @@
     .sidebar ul.logout {
         margin-top: auto;
     }
+    .chart-container {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
 </style>
 
 <!-- Sidebar -->
@@ -58,6 +62,12 @@
         <li><a href="dashboard"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
         <li><a href="user"><i class="fas fa-users mr-2"></i>Staffs</a></li>
         <li><a href="setting"><i class="fas fa-cog mr-2"></i>Settings</a></li>
+<!--        <li><a href="product"><i class="fas fa-tshirt mr-2"></i>Product</a></li>
+        <li><a href="user"><i class="fas fa-user-friends mr-2"></i>Customers</a></li>
+        <li><a href="feedback"><i class="fas fa-comments mr-2"></i>Feedbacks</a></li>
+        <li><a href="slider"><i class="fas fa-images mr-2"></i>Sliders</a></li>-->
+        <li><a href="list-post"><i class="fas fa-images mr-2"></i>Setting List</a></li>
+        
     </ul>
     <ul class="logout">
         <li class="text-light"><i class="fas fa-users mr-2"></i>${sessionScope.staff.fullname}</li>
