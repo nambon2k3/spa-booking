@@ -51,7 +51,7 @@
 
                     <div style="margin-top: 30px;">
                         <a href="home" class="btn btn-success" style="padding: 10px 25px; margin-right: 10px;">Continue Booking</a>
-                        <a href="order-history.jsp" class="btn btn-outline-secondary" style="padding: 10px 25px;">View Orders</a>
+                        <a href="history-booking" class="btn btn-outline-secondary" style="padding: 10px 25px;">View Orders</a>
                     </div>
                 </div>
             </div>

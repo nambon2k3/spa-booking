@@ -28,7 +28,7 @@ public class UserDAO {
 
     public List<User> getFilteredStaff(String fullName, String email, String phone, int role, String gender, Boolean isDeleted, int pageNumber, int pageSize) {
         List<User> filteredUserList = new ArrayList<>();
-        String query = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY ID) AS RowNum FROM [Staff] WHERE 1=1";
+        String query = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY ID) AS RowNum FROM [User] WHERE 1=1";
         // Add filter conditions
         if (fullName != null && !fullName.isEmpty()) {
             query += " AND Fullname LIKE '%" + fullName + "%'";
@@ -39,9 +39,9 @@ public class UserDAO {
         if (phone != null && !phone.isEmpty()) {
             query += " AND Phone LIKE '%" + phone + "%'";
         }
-        if (role != -1) {
-            query += " AND Role = " + role;
-        }
+
+        query += " AND RoleId = " + role;
+
         if (gender != null && !gender.isEmpty()) {
             query += " AND Gender = '" + gender + "'";
         }
@@ -81,7 +81,7 @@ public class UserDAO {
 
     public List<User> getFilteredStaff(String fullName, String email, int role, String gender, Boolean isDeleted) {
         List<User> filteredUserList = new ArrayList<>();
-        String query = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY ID) AS RowNum FROM [Staff] WHERE 1=1";
+        String query = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY ID) AS RowNum FROM [User] WHERE 1=1";
         // Add filter conditions
         if (fullName != null && !fullName.isEmpty()) {
             query += " AND Fullname LIKE '%" + fullName + "%'";
@@ -90,7 +90,7 @@ public class UserDAO {
             query += " AND Email LIKE '%" + email + "%'";
         }
         if (role != -1) {
-            query += " AND Role = " + role;
+            query += " AND RoleID = " + role;
         }
         if (gender != null && !gender.isEmpty()) {
             query += " AND Gender LIKE '%" + gender + "%'";
@@ -112,7 +112,7 @@ public class UserDAO {
                 staff.setGender(rs.getString("Gender"));
                 staff.setAddress(rs.getString("Address"));
                 staff.setPhone(rs.getString("Phone"));
-                staff.setRoleId(rs.getInt("Role"));
+                staff.setRoleId(rs.getInt("RoleId"));
                 staff.setIsDeleted(rs.getBoolean("IsDeleted"));
                 staff.setCreatedAt(rs.getDate("CreatedAt"));
                 staff.setCreatedBy(rs.getInt("CreatedBy"));

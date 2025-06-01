@@ -8,6 +8,9 @@ package Model;
  *
  * @author Legion
  */
+import DAO.RoomDAO;
+import DAO.SpaServiceDAO;
+import DAO.UserDAO;
 import java.util.Date;
 
 public class Appointment {
@@ -19,6 +22,38 @@ public class Appointment {
     private Date scheduledAt;
     private String status;
     private Date createdAt;
+    
+    
+    private User user;
+    private SpaService spaService;
+    private Room room;
+
+    public Room getRoom() {
+        return new RoomDAO().getRoomId(roomId);
+    }
+
+    public SpaService getSpaService() {
+        return new SpaServiceDAO().getSpaServiceById(serviceId);
+    }
+
+    public User getUser() {
+        return new UserDAO().getUserById(userId);
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public void setSpaService(SpaService spaService) {
+        this.spaService = spaService;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    
+    
 
     // Constructors
     public Appointment() {}

@@ -41,7 +41,6 @@
         margin-left: 5%;
         margin-right: 5%;
     }
-
     .sidebar {
         display: flex;
         flex-direction: column;
@@ -51,7 +50,6 @@
     .sidebar ul.logout {
         margin-top: auto;
     }
-
     .chart-container {
         padding-left: 5%;
         padding-right: 5%;
@@ -61,7 +59,9 @@
 <!-- Sidebar -->
 <nav class="sidebar">
     <ul>
-        <li><a href="dashboard"><i class="fas fa-chart-line mr-2"></i>Dashboard</a></li>
+        <li><a href="dashboard"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+        <li><a href="user"><i class="fas fa-users mr-2"></i>Staffs</a></li>
+        <li><a href="setting"><i class="fas fa-cog mr-2"></i>Settings</a></li>
 <!--        <li><a href="product"><i class="fas fa-tshirt mr-2"></i>Product</a></li>
         <li><a href="user"><i class="fas fa-user-friends mr-2"></i>Customers</a></li>
         <li><a href="feedback"><i class="fas fa-comments mr-2"></i>Feedbacks</a></li>
