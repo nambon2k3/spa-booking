@@ -72,7 +72,7 @@ public class AdminSettingUserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        User user = new UserDAO().getUserById(id);
+        User user = new UserDAO().getStaffById(id);
 
         request.setAttribute("user", user);
 
@@ -109,7 +109,7 @@ public class AdminSettingUserController extends HttpServlet {
         user.setGender(gender.equals("male") ? "1" : "0");
         user.setRoleId(roleId);
         if (listItem == null || listItem.getSize() == 0) {
-            userDAO.updateUser(user);
+            userDAO.updateStaff(user);
         } else {
             String avatar = listItem.getSubmittedFileName();
             ServletContext context = getServletContext();
@@ -124,7 +124,7 @@ public class AdminSettingUserController extends HttpServlet {
                     fileOutputStream.write(data);
                 }
                 user.setAvatar(filePath1);
-                userDAO.updateUser(user);
+                userDAO.updateStaff(user);
             } catch (Exception e) {
                 log("Error while updating plant: " + e.toString());
                 request.setAttribute("isSuccess", false);

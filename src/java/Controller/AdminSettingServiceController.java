@@ -101,7 +101,7 @@ public class AdminSettingServiceController extends HttpServlet {
         int category = Integer.parseInt(request.getParameter("category"));
         Part filePart = request.getPart("file");
         SpaServiceDAO serviceDAO = new SpaServiceDAO();
-        SpaService service = serviceDAO.getSpaServiceById(id);
+        SpaService service = serviceDAO.getServiceById(id);
         service.setName(name);
         service.setDescription(description);
         service.setDurationMinutes(durationMinutes);
@@ -122,7 +122,7 @@ public class AdminSettingServiceController extends HttpServlet {
                     fileOutputStream.write(data);
                 }
                 service.setImage(filePath1);
-                serviceDAO.updateService(service);
+                serviceDAO.updateSpaService(service);
             } catch (Exception e) {
                 log("Error while updating service: " + e.toString());
                 request.setAttribute("isSuccess", false);

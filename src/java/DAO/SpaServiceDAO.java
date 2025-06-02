@@ -110,6 +110,34 @@ public class SpaServiceDAO extends DBContext {
 
         return service;
     }
+    
+        public SpaService getServiceById(int id) {
+        SpaService service = null;
+        String sql = "SELECT * FROM spaservice WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    service = new SpaService();
+                    service.setId(rs.getInt("id"));
+                    service.setName(rs.getString("name"));
+                    service.setDescription(rs.getString("description"));
+                    service.setDurationMinutes(rs.getInt("durationminutes"));
+                    service.setPrice(rs.getBigDecimal("price"));
+                    service.setActive(rs.getBoolean("isactive"));
+                    service.setCategoryId(rs.getInt("categoryid"));
+                    service.setImage(rs.getString("image"));
+                     service.setCategoryId(rs.getInt("CategoryId"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // hoặc ghi log
+        }
+
+        return service;
+    }
 
     public int getTotalActiveSpaServicePages() {
         String sql = "SELECT COUNT(*) FROM spaservice WHERE isactive = 1";
@@ -153,8 +181,27 @@ public class SpaServiceDAO extends DBContext {
             stmt.setBigDecimal(4, service.getPrice());
             stmt.setInt(5, service.getCategoryId());
             stmt.setString(6, service.getImage());
-            stmt.setBoolean(7, service.isActive()); // đúng vị trí
-            stmt.setInt(8, service.getId());        // đúng vị trí
+            stmt.setBoolean(7, service.isActive()); 
+            stmt.setInt(8, service.getId());        
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+        public void updateSpaService(SpaService service) {
+        String sql = "UPDATE SpaService SET name = ?, description = ?, durationMinutes = ?, price = ?, categoryId = ?, image = ?, IsActive = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, service.getName());
+            stmt.setString(2, service.getDescription());
+            stmt.setInt(3, service.getDurationMinutes());
+            stmt.setBigDecimal(4, service.getPrice());
+            stmt.setInt(5, service.getCategoryId());
+            stmt.setString(6, service.getImage());
+            stmt.setBoolean(7, service.isActive()); 
+            
+            stmt.setInt(8, service.getId());        
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

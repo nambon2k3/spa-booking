@@ -34,7 +34,7 @@
     </head>
 
     <body>
-        <%@ include file="admin-sidebar.jsp" %>
+        <%@ include file="marketing-sidebar.jsp" %>
 
         <div class="mt-5 main-content">
             <c:if test="${isSuccess ne null && isSuccess}">
@@ -84,16 +84,16 @@
                         <select class="form-control" id="serviceCategory" name="category" required>
                             <option value="" disabled selected>Select Category</option>
 
-                            <option value="2">Massage Therapy</option>
-                            <option value="3">Facial Treatments</option>
-                            <option value="4">Body Scrub</option>
-                            <option value="5">Hair Removal</option>
-                            <option value="6">Aromatherapy</option>
-                            <option value="7">Manicure & Pedicure</option>
-                            <option value="8">Hot Stone Therapy</option>
-                            <option value="9">Sauna & Steam Bath</option>
-                            <option value="10">Slimming Treatments</option>
-                            <option value="11">Anti-Aging Treatments</option>
+                            <option value="2"  ${service.categoryId eq 2 ? 'selected' : ''}>Massage Therapy</option>
+                            <option value="3" ${service.categoryId eq 3 ? 'selected' : ''}>Facial Treatments</option>
+                            <option value="4" ${service.categoryId eq 4 ? 'selected' : ''}>Body Scrub</option>
+                            <option value="5" ${service.categoryId eq 5 ? 'selected' : ''}>Hair Removal</option>
+                            <option value="6" ${service.categoryId eq 6 ? 'selected' : ''}>Aromatherapy</option>
+                            <option value="7" ${service.categoryId eq 7 ? 'selected' : ''}>Manicure & Pedicure</option>
+                            <option value="8" ${service.categoryId eq 8 ? 'selected' : ''}>Hot Stone Therapy</option>
+                            <option value="9" ${service.categoryId eq 9 ? 'selected' : ''}>Sauna & Steam Bath</option>
+                            <option value="10" ${service.categoryId eq 10 ? 'selected' : ''}>Slimming Treatments</option>
+                            <option value="11" ${service.categoryId eq 11 ? 'selected' : ''}>Anti-Aging Treatments</option>
                         </select>
                     </div>
                     <div class="form-group">
