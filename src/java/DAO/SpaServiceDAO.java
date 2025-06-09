@@ -325,8 +325,8 @@ public class SpaServiceDAO extends DBContext {
 
         return service;
     }
-    
-        public SpaService getServiceById(int id) {
+
+    public SpaService getServiceById(int id) {
         SpaService service = null;
         String sql = "SELECT * FROM spaservice WHERE id = ?";
 
@@ -344,7 +344,7 @@ public class SpaServiceDAO extends DBContext {
                     service.setActive(rs.getBoolean("isactive"));
                     service.setCategoryId(rs.getInt("categoryid"));
                     service.setImage(rs.getString("image"));
-                     service.setCategoryId(rs.getInt("CategoryId"));
+                    service.setCategoryId(rs.getInt("CategoryId"));
                 }
             }
         } catch (SQLException e) {
@@ -396,16 +396,15 @@ public class SpaServiceDAO extends DBContext {
             stmt.setBigDecimal(4, service.getPrice());
             stmt.setInt(5, service.getCategoryId());
             stmt.setString(6, service.getImage());
-            stmt.setBoolean(7, service.isActive()); 
-            stmt.setInt(8, service.getId());        
+            stmt.setBoolean(7, service.isActive());
+            stmt.setInt(8, service.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
-    
-        public void updateSpaService(SpaService service) {
+
+    public void updateSpaService2(SpaService service) {
         String sql = "UPDATE SpaService SET name = ?, description = ?, durationMinutes = ?, price = ?, categoryId = ?, image = ?, IsActive = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, service.getName());
@@ -414,9 +413,9 @@ public class SpaServiceDAO extends DBContext {
             stmt.setBigDecimal(4, service.getPrice());
             stmt.setInt(5, service.getCategoryId());
             stmt.setString(6, service.getImage());
-            stmt.setBoolean(7, service.isActive()); 
-            
-            stmt.setInt(8, service.getId());        
+            stmt.setBoolean(7, service.isActive());
+
+            stmt.setInt(8, service.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -460,8 +459,8 @@ public class SpaServiceDAO extends DBContext {
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Replace with proper logging in production
-        } 
-        
+        }
+
         return serviceList;
     }
 
@@ -487,16 +486,14 @@ public class SpaServiceDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        
 
-            // Tạo đối tượng DAO
-            SpaServiceDAO dao = new SpaServiceDAO();
+        // Tạo đối tượng DAO
+        SpaServiceDAO dao = new SpaServiceDAO();
 
-            // Gọi hàm và in kết quả
-            int total = dao.getTotalSpaServices();
-            System.out.println("Total spa services: " + total);
+        // Gọi hàm và in kết quả
+        int total = dao.getTotalSpaServices();
+        System.out.println("Total spa services: " + total);
 
-      
     }
 
 }
