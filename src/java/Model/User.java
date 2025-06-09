@@ -22,7 +22,16 @@ public class User {
     private String changeHistory;
     private int roleId;
     private String roleString;
+    private int loyaltyPoints;
 
+    public int getLoyaltyPoints() {
+        return loyaltyPoints;
+    }
+
+    public void setLoyaltyPoints(int loyaltyPoints) {
+        this.loyaltyPoints = loyaltyPoints;
+    }
+    
     public String getRoleString() {
         return roleString;
     }

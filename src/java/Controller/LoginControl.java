@@ -81,7 +81,7 @@ public class LoginControl extends HttpServlet {
                 return;
             }
             if (user.getRoleId() == 2) {
-                response.sendRedirect("marketing/list-post");
+                response.sendRedirect("staff/list-post");
                 return;
             }
 //            if (user.getRoleId() == 3) response.sendRedirect("sale/dashboard");

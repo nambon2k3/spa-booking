@@ -25,9 +25,18 @@ public class Appointment {
     
     
     private User user;
+    private User staff;
     private SpaService spaService;
     private Room room;
 
+    public User getStaff() {
+        return new UserDAO().getUserById(staffId);
+    }
+
+    public void setStaff(User staff) {
+        this.staff = staff;
+    }
+    
     public Room getRoom() {
         return new RoomDAO().getRoomId(roomId);
     }
