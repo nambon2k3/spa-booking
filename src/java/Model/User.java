@@ -42,6 +42,27 @@ public class User {
     
     
 
+    public User(int id, String email, String password, String fullname, String gender, String address, String phone, boolean isDeleted, Date createdAt, int createdBy, String avatar, String changeHistory, int roleId) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.fullname = fullname;
+        this.gender = gender;
+        this.address = address;
+        this.phone = phone;
+        this.isDeleted = isDeleted;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.avatar = avatar;
+        this.changeHistory = changeHistory;
+        this.roleId = roleId;
+    }
+
+    public User() {
+    }
+    
+    
+
     public String getChangeHistory() {
         return changeHistory;
     }

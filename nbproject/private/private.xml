@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/SP_SU25/spa-booking/web/history-booking.jsp</file>
             <file>file:/D:/SP_SU25/spa-booking/src/java/DAO/InvoiceDAO.java</file>
             <file>file:/D:/SP_SU25/spa-booking/src/java/DAO/UserDAO.java</file>
@@ -17,6 +18,22 @@
             <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/PaymentResponseController.java</file>
             <file>file:/D:/SP_SU25/spa-booking/src/java/Controller/AdminAppointmentController.java</file>
             <file>file:/D:/SP_SU25/spa-booking/src/java/DAO/CategoryDAO.java</file>
+=======
+            <file>file:/E:/nam/spa-booking/src/java/Controller/AdminSettingUserController.java</file>
+            <file>file:/E:/nam/spa-booking/web/admin-settingAddService.jsp</file>
+            <file>file:/E:/nam/spa-booking/web/admin-settingAddUser.jsp</file>
+            <file>file:/E:/nam/spa-booking/src/java/Controller/AdminSettingServiceController.java</file>
+            <file>file:/E:/nam/spa-booking/web/marketing-sidebar.jsp</file>
+            <file>file:/E:/nam/spa-booking/src/java/Controller/AdminSettingController.java</file>
+            <file>file:/E:/nam/spa-booking/src/java/DAO/UserDAO.java</file>
+            <file>file:/E:/nam/spa-booking/web/admin-settingList.jsp</file>
+            <file>file:/E:/nam/spa-booking/web/admin-settingUser.jsp</file>
+            <file>file:/E:/nam/spa-booking/web/post-detail.jsp</file>
+            <file>file:/E:/nam/spa-booking/src/java/Controller/AdminUserControl.java</file>
+            <file>file:/E:/nam/spa-booking/web/admin-settingService.jsp</file>
+            <file>file:/E:/nam/spa-booking/web/marketing-post.jsp</file>
+            <file>file:/E:/nam/spa-booking/web/list-blog.jsp</file>
+>>>>>>> fb88026e09520bd5fee05972659aa477d4f718ff
         </group>
     </open-files>
 </project-private>
