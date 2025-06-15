@@ -5,7 +5,7 @@
 package Model;
 
 import DAO.UserDAO;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 /**
  *
@@ -19,6 +19,7 @@ public class Feedback {
     private boolean responded;
     private Timestamp createdAt;
     private User user;
+    private int appointmentId;
 
     public Feedback() {
         this.user = new UserDAO().getUserById(userId);
@@ -97,4 +98,13 @@ public class Feedback {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
+    public int getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(int appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+    
 }

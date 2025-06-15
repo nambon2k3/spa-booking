@@ -5,13 +5,14 @@
         <group>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/PostDAO.java</file>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/SpaService.java</file>
-            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/User.java</file>
-            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/SpaServiceDAO.java</file>
-            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/Post.java</file>
-            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/UserDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Controller/ListPostController.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/web/admin-header.jsp</file>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/FeedbackDAO.java</file>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/web/Home.jsp</file>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/DAO/CategoryDAO.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/web/admin.jsp</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Controller/AdminFeedbackController.java</file>
+            <file>file:/D:/FPT/FU_SP/Backup/spa-booking/web/admin-feedback.jsp</file>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Controller/HomeController.java</file>
             <file>file:/D:/FPT/FU_SP/Backup/spa-booking/src/java/Model/Feedback.java</file>
         </group>
