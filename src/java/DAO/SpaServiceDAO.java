@@ -484,6 +484,29 @@ public class SpaServiceDAO extends DBContext {
         }
         return total;
     }
+    
+    
+    public List<SpaService> getActiveSpaServices() {
+        List<SpaService> list = new ArrayList<>();
+        String sql = "SELECT * FROM SpaService ";
+        try (PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                SpaService spaService = new SpaService(
+                        rs.getInt("Id"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getInt("DurationMinutes"),
+                        rs.getBigDecimal("Price"),
+                        rs.getString("Image")
+                );
+                list.add(spaService);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
 
@@ -493,6 +516,7 @@ public class SpaServiceDAO extends DBContext {
         // Gọi hàm và in kết quả
         int total = dao.getTotalSpaServices();
         System.out.println("Total spa services: " + total);
+
 
     }
 

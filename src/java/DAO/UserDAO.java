@@ -178,7 +178,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     public User getStaffById(int id) {
         String query = "SELECT * FROM [User] WHERE ID = ?";
         try {
@@ -209,7 +209,6 @@ public class UserDAO {
         }
         return null;
     }
-
 
     // Read (Get User by Email)
     public User getUserByEmail(String email) {
@@ -460,8 +459,8 @@ public class UserDAO {
         }
         return false;
     }
-    
-      public boolean updateStaff(User user) {
+
+    public boolean updateStaff(User user) {
         String query = "UPDATE [User] SET Email=?, Password=?, Fullname=?, Gender=?, Address=?, Phone=?, IsDeleted=?, CreatedBy=?, Avatar=?, ChangeHistory=?, RoleId = ? WHERE ID=?";
         try {
             ps = conn.prepareStatement(query);
@@ -571,13 +570,10 @@ public class UserDAO {
             e.printStackTrace();
             // Handle exception properly
         }
-        
-        
-        
 
         return users;
     }
-    
+
     public int getTotalUsers() {
         String query = "SELECT COUNT(*) AS total FROM [User]";
         int total = 0;
@@ -591,8 +587,12 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Error in getTotalUsers", e);
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
                 // Do not close conn here since it's initialized in constructor and reused
             } catch (SQLException e) {
                 Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Error closing resources", e);
@@ -600,6 +600,26 @@ public class UserDAO {
         }
         return total;
     }
+
+
+    public List<User> getStaffList() {
+        List<User> staff = new ArrayList<>();
+        String sql = "SELECT ID, Fullname FROM [User] WHERE RoleId = (SELECT ID FROM Role WHERE Name = 'Chuyên viên tr? li?u')";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("ID"));
+                user.setFullname(rs.getString("Fullname"));
+                staff.add(user);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return staff;
 
     public boolean updateLoyaltyPoints(int userId, int newPoints) {
         String sql = "UPDATE [User] SET loyaltyPoints = loyaltyPoints + ? WHERE id = ?";
@@ -612,6 +632,7 @@ public class UserDAO {
             e.printStackTrace(); // hoặc logging
             return false;
         }
+
     }
 
     private void closeResources() {

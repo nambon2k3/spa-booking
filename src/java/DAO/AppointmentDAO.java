@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import DAO.NotifyDAO;
 
 /**
  *
@@ -178,6 +181,26 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
+
+    public List<Appointment> getAppointments() {
+
+        List<Appointment> appointments = new ArrayList<>();
+        String sql = "SELECT a.Id, a.UserId, a.ServiceId, a.StaffId, a.RoomId, a.ScheduledAt, a.Status, u.Fullname "
+                + "FROM Appointments a LEFT JOIN [User] u ON a.UserId = u.ID";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Appointment app = new Appointment();
+                app.setId(rs.getInt("Id"));
+                app.setUserId(rs.getInt("UserId"));
+                app.setServiceId(rs.getInt("ServiceId"));
+                app.setStaffId(rs.getInt("StaffId"));
+                app.setRoomId(rs.getInt("RoomId"));
+                app.setScheduledAt(rs.getTimestamp("ScheduledAt"));
+                app.setStatus(rs.getString("Status"));
+//            app.set(rs.getString("Fullname")); 
+                appointments.add(app);
+
     public Appointment getAppointmentById(int appointmentId) {
         Appointment appointment = null;
         String sql = "SELECT * FROM Appointments WHERE Id = ?";
@@ -264,10 +287,32 @@ public class AppointmentDAO extends DBContext {
 
                     appointments.add(appointment);
                 }
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return appointments;
+    }
+
+    public boolean updateAppointment(int appointmentId, int staffId, Timestamp newStart, int serviceId) {
+        String sql = "UPDATE Appointments SET StaffId = ?, ScheduledAt = ?, ServiceId = ? WHERE Id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, staffId);
+            stmt.setTimestamp(2, newStart);
+            stmt.setInt(3, serviceId);
+            stmt.setInt(4, appointmentId);
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+//                NotifyDAO.createNotification(staffId, appointmentId, newStart, serviceId);
+                NotifyDAO notifyDAO = new NotifyDAO();
+                notifyDAO.createNotification(staffId, appointmentId, newStart, serviceId);
+                return true;
+            }
+
+
 
         return appointments;
     }
@@ -314,9 +359,12 @@ public class AppointmentDAO extends DBContext {
                     total = rs.getInt(1);
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
 
         return total;
     }
@@ -337,6 +385,7 @@ public class AppointmentDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return false;
     }
 

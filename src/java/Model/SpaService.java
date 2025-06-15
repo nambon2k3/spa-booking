@@ -120,4 +120,11 @@ public class SpaService {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
+
+    @Override
+    public String toString() {
+        return "SpaService{" + "id=" + id + ", name=" + name + ", description=" + description + ", durationMinutes=" + durationMinutes + ", price=" + price + ", isActive=" + isActive + ", categoryId=" + categoryId + ", image=" + image + ", category=" + category + '}';
+    }
+    
+    
 }
