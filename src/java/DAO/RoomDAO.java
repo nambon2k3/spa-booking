@@ -75,5 +75,31 @@ public class RoomDAO extends DBContext {
 
         return room;
     }
+    
+    
+    
+    public List<Room> getAllRooms() {
+        String query = "SELECT r.Id, r.Name, r.IsAvailable "
+                + "FROM [dbo].[Rooms] r";
+        List<Room> rooms = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                        Room room = new Room();
+
+                room.setId(rs.getInt("Id"));
+                room.setName(rs.getString("Name"));
+                room.setAvailable(rs.getBoolean("IsAvailable"));
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception as needed
+        }
+
+        return rooms;
+    }
+    
 
 }

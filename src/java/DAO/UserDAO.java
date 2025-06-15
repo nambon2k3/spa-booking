@@ -81,7 +81,7 @@ public class UserDAO {
 
     public List<User> getFilteredStaff(String fullName, String email, int role, String gender, Boolean isDeleted) {
         List<User> filteredUserList = new ArrayList<>();
-        String query = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY ID) AS RowNum FROM [User] WHERE 1=1";
+        String query = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY ID) AS RowNum FROM [User] WHERE RoleID not in (1,4) AND 1=1";
         // Add filter conditions
         if (fullName != null && !fullName.isEmpty()) {
             query += " AND Fullname LIKE '%" + fullName + "%'";
@@ -601,6 +601,7 @@ public class UserDAO {
         return total;
     }
 
+
     public List<User> getStaffList() {
         List<User> staff = new ArrayList<>();
         String sql = "SELECT ID, Fullname FROM [User] WHERE RoleId = (SELECT ID FROM Role WHERE Name = 'Chuyên viên tr? li?u')";
@@ -619,6 +620,19 @@ public class UserDAO {
         }
 
         return staff;
+
+    public boolean updateLoyaltyPoints(int userId, int newPoints) {
+        String sql = "UPDATE [User] SET loyaltyPoints = loyaltyPoints + ? WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, newPoints);
+            stmt.setInt(2, userId);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // hoặc logging
+            return false;
+        }
+
     }
 
     private void closeResources() {

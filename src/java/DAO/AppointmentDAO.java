@@ -181,6 +181,7 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
+
     public List<Appointment> getAppointments() {
 
         List<Appointment> appointments = new ArrayList<>();
@@ -199,10 +200,99 @@ public class AppointmentDAO extends DBContext {
                 app.setStatus(rs.getString("Status"));
 //            app.set(rs.getString("Fullname")); 
                 appointments.add(app);
+
+    public Appointment getAppointmentById(int appointmentId) {
+        Appointment appointment = null;
+        String sql = "SELECT * FROM Appointments WHERE Id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, appointmentId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    appointment = new Appointment();
+                    appointment.setId(rs.getInt("Id"));
+                    appointment.setUserId(rs.getInt("UserId"));
+                    appointment.setServiceId(rs.getInt("ServiceId"));
+                    appointment.setStaffId(rs.getInt("StaffId"));
+                    appointment.setRoomId(rs.getInt("RoomId"));
+                    appointment.setScheduledAt(rs.getTimestamp("ScheduledAt"));
+                    appointment.setStatus(rs.getString("Status"));
+                    appointment.setCreatedAt(rs.getTimestamp("CreatedAt"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // log error properly in real applications
+        }
+
+        return appointment;
+    }
+
+    public List<Appointment> getAppointments(
+            Integer staffId,
+            Integer roomId,
+            Date scheduledFrom,
+            Date scheduledTo,
+            int page,
+            int pageSize
+    ) {
+        List<Appointment> appointments = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM appointments WHERE 1=1");
+
+        if (staffId != null) {
+            sql.append(" AND staffId = ?");
+        }
+        if (roomId != null) {
+            sql.append(" AND roomId = ?");
+        }
+        if (scheduledFrom != null) {
+            sql.append(" AND scheduledAt >= ?");
+        }
+        if (scheduledTo != null) {
+            sql.append(" AND scheduledAt <= ?");
+        }
+
+        sql.append(" ORDER BY id DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            if (staffId != null) {
+                stmt.setInt(paramIndex++, staffId);
+            }
+            if (roomId != null) {
+                stmt.setInt(paramIndex++, roomId);
+            }
+            if (scheduledFrom != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledFrom.getTime()));
+            }
+            if (scheduledTo != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledTo.getTime()));
+            }
+
+            int offset = (page - 1) * pageSize;
+            stmt.setInt(paramIndex++, offset);
+            stmt.setInt(paramIndex, pageSize);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Appointment appointment = new Appointment();
+                    appointment.setId(rs.getInt("id"));
+                    appointment.setUserId(rs.getInt("userId"));
+                    appointment.setServiceId(rs.getInt("serviceId"));
+                    appointment.setStaffId(rs.getInt("staffId"));
+                    appointment.setRoomId(rs.getInt("roomId"));
+                    appointment.setScheduledAt(rs.getTimestamp("scheduledAt"));
+                    appointment.setStatus(rs.getString("status"));
+                    appointment.setCreatedAt(rs.getTimestamp("createdAt"));
+
+                    appointments.add(appointment);
+                }
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return appointments;
     }
 
@@ -222,6 +312,76 @@ public class AppointmentDAO extends DBContext {
                 return true;
             }
 
+
+
+        return appointments;
+    }
+
+    public int countAppointments(
+            Integer staffId,
+            Integer roomId,
+            Date scheduledFrom,
+            Date scheduledTo
+    ) {
+        int total = 0;
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM appointments WHERE 1=1");
+
+        if (staffId != null) {
+            sql.append(" AND staffId = ?");
+        }
+        if (roomId != null) {
+            sql.append(" AND roomId = ?");
+        }
+        if (scheduledFrom != null) {
+            sql.append(" AND scheduledAt >= ?");
+        }
+        if (scheduledTo != null) {
+            sql.append(" AND scheduledAt <= ?");
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            if (staffId != null) {
+                stmt.setInt(paramIndex++, staffId);
+            }
+            if (roomId != null) {
+                stmt.setInt(paramIndex++, roomId);
+            }
+            if (scheduledFrom != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledFrom.getTime()));
+            }
+            if (scheduledTo != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledTo.getTime()));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return total;
+    }
+
+    public boolean updateAppointment(Appointment appointment) {
+        String sql = "UPDATE appointments SET userid = ?, serviceid = ?, staffid = ?, roomid = ?, scheduledat = ?, status = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, appointment.getUserId());
+            stmt.setInt(2, appointment.getServiceId());
+            stmt.setInt(3, appointment.getStaffId());
+            stmt.setInt(4, appointment.getRoomId());
+            stmt.setTimestamp(5, new Timestamp(appointment.getScheduledAt().getTime()));
+            stmt.setString(6, appointment.getStatus());
+            stmt.setInt(7, appointment.getId());
+
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

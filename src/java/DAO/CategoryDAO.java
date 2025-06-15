@@ -68,6 +68,29 @@ public class CategoryDAO extends DBContext{
 
         return categories;
     }
+    
+    
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+
+        String sql = "SELECT ID, Name FROM Category";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("ID"),
+                        rs.getString("Name")
+                );
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
 
     public List<Category> getTopCategories(int i) {
         List<Category> categories = new ArrayList<>();

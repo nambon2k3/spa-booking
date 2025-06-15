@@ -33,7 +33,7 @@ public class AdminUserControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Pagination parameters
         int pageNumber = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
-        int pageSize = 5;
+        int pageSize = 10;
 
         // Filter parameters
         String fullName = request.getParameter("fullName");

@@ -34,7 +34,7 @@
     </head>
 
     <body>
-        <%@ include file="marketing-sidebar.jsp" %>
+        <%@ include file="staff-sidebar.jsp" %>
 
         <div class="mt-5 main-content">
             <c:if test="${isSuccess ne null && isSuccess}">

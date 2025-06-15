@@ -63,10 +63,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb-text">
-                            <h2>Your bookings</h2>
+                            <h2>Your payments</h2>
                             <div class="bt-option">
                                 <a href="./home.html">Home</a>
-                                <span>bookings</span>
+                                <span>payments</span>
                             </div>
                         </div>
                     </div>
@@ -93,120 +93,34 @@
             </c:if>
 
             <c:choose>
-                <c:when test="${empty appointments}">
-                    <p>No appointments found.</p>
+                <c:when test="${empty invoiceList}">
+                    <p>No payment found.</p>
                 </c:when>
                 <c:otherwise>
                     <table class="table table-hover align-middle text-center mt-4">
                         <thead>
                             <tr style="background-color: #dfa974">
                                 <th>ID</th>
-                                <th>Service Image</th>
-                                <th>Service Type</th>
-                                <th>Staff</th>
-                                <th>Room</th>
-                                <th>Scheduled At</th>
-                                <th>Status</th>
+                                <th>Total Amount</th>
+                                <th>Payment Method</th>
+                                <th>Points Change</th>
+                                <th>Created At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="appt" items="${appointments}">
+                            <c:forEach var="invoice" items="${invoiceList}">
                                 <tr>
-                                    <td>${appt.id}</td>
+                                    <td>${invoice.id}</td>
+                                    <td>${invoice.totalAmount}</td>
+                                    <td>${invoice.paymentMethod}</td>
+                                    <td>${invoice.pointsChange}</td>
+                                    <td>${invoice.createdAt}</td>
                                     <td>
-                                        <img src="${appt.spaService.image}" alt="${appt.spaService.name}" height="200px">
-                                    </td>
-                                    <td>${appt.spaService.name}</td>
-                                    <td>${appt.user.fullname}</td>
-                                    <td>${appt.room.name}</td>
-                                    <td>${appt.scheduledAt}</td>
-                                    <td style="color: white">
-                                        <c:choose>
-                                            <c:when test="${appt.status == 'Pending'}">
-                                                <span class="badge bg-warning text-dark">Pending</span>
-                                            </c:when>
-                                            <c:when test="${appt.status == 'Success'}">
-                                                <span class="badge bg-success" >Success</span>
-                                            </c:when>
-                                            <c:when test="${appt.status == 'Cancelled'}">
-                                                <span class="badge bg-danger">Cancelled</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="badge bg-secondary">${appt.status}</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td style="color: white">
-                                        <c:choose>
-                                            <c:when test="${appt.status == 'Pending'}">
-                                                <form action="cancel-booking" method="post" style="display:inline;">
-                                                    <input type="hidden" name="id" value="${appt.id}" />
-                                                    <input type="hidden" name="status" value="Cancelled" />
-                                                    <button type="submit" class="btn btn-danger btn-sm">Cancel booking</button>
-                                                </form>
-                                            </c:when>
-                                            <c:when test="${appt.status == 'Success'}">
-                                                <div class="d-flex gap-2 flex-column">
-                                                    <button type="button" class="open-modal-btn btn-sm btn btn-info" data-id="${appt.id}">View details</button>
-                                                    <span class="btn btn-sm btn-danger text-white" style="cursor: pointer">Cancel booking</span>
-                                                </div>
-                                                <div class="custom-modal" id="modal-${appt.id}" style="display: none;">
-                                                    <div class="modal-content">
-                                                        <h3>Appointment #${appt.id}</h3>
+                                        <i class="fa fa-eye" style="cursor: pointer" data-toggle="modal" data-target="#invoiceDetailModal_${invoice.id}"></i>
 
-                                                        <form action="history-booking" method="post">
-                                                            <input type="hidden" name="id" value="${appt.id}" />
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Service</label>
-                                                                <input type="text" class="form-control" value="${appt.spaService.name}" readonly>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">User</label>
-                                                                <input type="text" class="form-control" value="${appt.user.fullname}" readonly>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Room</label>
-                                                                <input type="text" class="form-control" value="${appt.room.name}" readonly>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Status</label>
-                                                                <input type="text" class="form-control" value="${appt.status}" readonly>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Scheduled Time</label>
-                                                                <input type="datetime-local" class="form-control" name="scheduledAt"
-                                                                       value="${fn:substring(appt.scheduledAt, 0, 16)}">
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-success">Save changes</button>
-                                                                <button type="button" class="btn btn-secondary close-btn" data-id="${appt.id}">Close</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </c:when>
-                                            <c:when test="${appt.status == 'Cancelled'}">
-
-                                            </c:when>
-                                            
-                                            <c:when test="${appt.status == 'Completed'}">
-
-                                            </c:when>
-                                            
-                                            <c:otherwise>
-                                                <span class="badge bg-secondary">${appt.status}</span>
-                                            </c:otherwise>
-                                        </c:choose>
                                     </td>
                                 </tr>
-
                             </c:forEach>
                         </tbody>
                     </table>
@@ -262,6 +176,80 @@
 
         </div>
         <!-- Footer Section End -->
+
+        <c:forEach var="invoice" items="${invoiceList}">
+            <!-- Modal Detail -->
+            <!-- View Invoice Modal -->
+            <div class="modal fade" id="invoiceDetailModal_${invoice.id}" tabindex="-1" role="dialog" aria-labelledby="viewInvoiceLabel_${invoice.id}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document"> <!-- Centered and wider -->
+                    <div class="modal-content">
+                        <div class="modal-header text-black">
+                            <h5 class="modal-title" id="viewInvoiceLabel_${invoice.id}">Invoice #${invoice.id}</h5>
+                            <button type="button" class="close text-black" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <!-- Invoice Info -->
+                            <h6 class="mb-3 text-primary">Invoice Details</h6>
+                            <table class="table table-sm table-borderless">
+                                <tr>
+                                    <th>Invoice ID:</th>
+                                    <td>${invoice.id}</td>
+                                    <th>Total Amount:</th>
+                                    <td>${invoice.totalAmount}</td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Method:</th>
+                                    <td>${invoice.paymentMethod}</td>
+                                    <th>Points Change:</th>
+                                    <td>${invoice.pointsChange}</td>
+                                </tr>
+                                <tr>
+                                    <th>Created At:</th>
+                                    <td colspan="3">${invoice.createdAt}</td>
+                                </tr>
+                            </table>
+
+                            <!-- Appointment Info -->
+                            <h6 class="mt-4 mb-3 text-success">Appointment Details</h6>
+                            <c:if test="${invoice.appointment != null}">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <th>Appointment ID:</th>
+                                        <td>${invoice.appointment.id}</td>
+                                        <th>Scheduled At:</th>
+                                        <td>${invoice.appointment.scheduledAt}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status:</th>
+                                        <td>${invoice.appointment.status}</td>
+                                        <th>Room ID:</th>
+                                        <td>${invoice.appointment.room.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Staff ID:</th>
+                                        <td>${invoice.appointment.staff.fullname}</td>
+                                        <th>Service ID:</th>
+                                        <td>${invoice.appointment.spaService.name}</td>
+                                    </tr>
+                                </table>
+                            </c:if>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="download-invoice?id=${invoice.id}" class="btn btn-success">
+                                <i class="fa fa-download"></i> Download PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </c:forEach>
 
         <!-- Bootstrap JS and dependencies -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

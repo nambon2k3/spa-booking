@@ -109,6 +109,9 @@
                                         <li onclick="viewHistory()">
                                             ⟳ History Booking
                                         </li>
+                                        <li onclick="viewPaymentHistory()">
+                                            ⟳ History Payment
+                                        </li>
                                         <li onclick="logout()">
                                             <i class="fas fa-sign-out-alt"></i> Logout
                                         </li>
@@ -137,6 +140,10 @@
             
             function viewHistory() {
                 window.location.href = '../Spa/history-booking';
+            }
+            
+            function viewPaymentHistory() {
+                window.location.href = '../Spa/history-payment';
             }
 
         </script>
