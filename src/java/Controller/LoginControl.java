@@ -75,6 +75,18 @@ public class LoginControl extends HttpServlet {
             // save user info to session
             request.getSession().setAttribute("user", user); 
             
+            
+            if (user.getRoleId()== 4) {
+                response.sendRedirect("admin/user");
+                return;
+            }
+            if (user.getRoleId() == 2) {
+                response.sendRedirect("staff/list-post");
+                return;
+            }
+//            if (user.getRoleId() == 3) response.sendRedirect("sale/dashboard");
+//            if (user.getRoleId() == 6) response.sendRedirect("inventory/list-order");
+            
             response.sendRedirect("home");
         } else {
             // Login failed

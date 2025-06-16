@@ -4,7 +4,7 @@
  */
 package Model;
 
-import DAO.UserDAO;
+import DAO.*;
 import java.sql.Timestamp;
 
 /**
@@ -18,8 +18,12 @@ public class Feedback {
     private int rating;
     private boolean responded;
     private Timestamp createdAt;
-    private User user;
     private int appointmentId;
+    private int responseId;
+    
+    private User user;
+    private Appointment appointment;
+    private FeedbackResponse response;
 
     public Feedback() {
         this.user = new UserDAO().getUserById(userId);
@@ -39,6 +43,16 @@ public class Feedback {
         this.rating = rating;
         this.responded = responded;
         this.createdAt = createdAt;
+    }
+    
+    public Feedback(int id, int userId, String content, int rating, boolean responded, Timestamp createdAt, Appointment appointment) {
+        this.id = id;
+        this.userId = userId;
+        this.content = content;
+        this.rating = rating;
+        this.responded = responded;
+        this.createdAt = createdAt;
+        this.appointment = appointment;
     }
 
     // Getters and setters
@@ -88,7 +102,7 @@ public class Feedback {
     }
 
     public User getUser() {
-        return user;
+        return new UserDAO().getUserById(userId);
     }
 
     public void setUser(User user) {
@@ -99,6 +113,14 @@ public class Feedback {
         this.createdAt = createdAt;
     }
 
+    public Appointment getAppointment() {
+        return new AppointmentDAO().getAppointmentById(appointmentId);
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
     public int getAppointmentId() {
         return appointmentId;
     }
@@ -106,5 +128,23 @@ public class Feedback {
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
     }
+
+    public FeedbackResponse getResponse() {
+        return new FeedbackResponseDAO().getFeedbackResponseById(responseId);
+    }
+
+    public void setResponse(FeedbackResponse response) {
+        this.response = response;
+    }
+
+    public int getResponseId() {
+        return responseId;
+    }
+
+    public void setResponseId(int responseId) {
+        this.responseId = responseId;
+    }
+
+    
     
 }

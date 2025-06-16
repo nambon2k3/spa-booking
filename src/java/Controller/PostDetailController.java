@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Legion
  */
-@WebServlet(name="PostDetailController", urlPatterns={"/marketing/post-detail"})
+@WebServlet(name="PostDetailController", urlPatterns={"/staff/post-detail"})
 public class PostDetailController extends HttpServlet {
    
     /** 
@@ -68,6 +68,8 @@ public class PostDetailController extends HttpServlet {
 
         int postId = Integer.parseInt(postIdStr);
         Post post = new PostDAO().getPostById(postId);
+        
+        System.out.println(post.getContent());
 
 
         if (post == null) {

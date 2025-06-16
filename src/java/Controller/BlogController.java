@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Legion
  */
-@WebServlet(name="BlogController", urlPatterns={"/public/list-blog"})
+@WebServlet(name="BlogController", urlPatterns={"/list-blog"})
 public class BlogController extends HttpServlet {
    
     /** 

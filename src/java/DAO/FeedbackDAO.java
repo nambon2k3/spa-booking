@@ -5,6 +5,7 @@
 package DAO;
 
 import Model.Feedback;
+import Model.FeedbackResponse;
 import Model.Post;
 import Model.SpaService;
 import Model.User;
@@ -55,21 +56,15 @@ public class FeedbackDAO extends DBContext{
     }
 
     return list;
-} private int id;
-    private int userId;
-    private String content;
-    private int rating;
-    private boolean responded;
-    private Timestamp createdAt;
-    private User user;
-    private int appointmentId;
+} 
 
     public List<Feedback> getFeebacks(int page, int pageSize, String rating, String author, String status, String search, String sortBy, String sortOrder) {
          List<Feedback> feedbacks = new ArrayList<>();
         int offset = (page - 1) * pageSize;
-        StringBuilder query = new StringBuilder("SELECT fb.Id, fb.UserId, fb.Content, fb.Rating, fb.Responded, fb.CreatedAt, fb.AppointmentId"
+        StringBuilder query = new StringBuilder("SELECT fb.Id, fb.UserId, fb.Content, fb.Rating, fb.Responded, fb.CreatedAt, fb.AppointmentId, fr.Id as ResponseId"
                 + " FROM [dbo].[Feedback] fb "
-//                + "JOIN [dbo].[User] u ON fb.UserId = u.ID "
+                + "JOIN [dbo].[Appointments] a ON fb.AppointmentId = a.Id "
+                + "LEFT JOIN [dbo].[FeedbackResponse] fr ON fr.FeedbackId = fb.Id "
                 + "WHERE 1=1");
         
         if (rating != null && !rating.isEmpty()) {
@@ -118,6 +113,8 @@ public class FeedbackDAO extends DBContext{
                 String content = rs.getString("Content");
                 boolean responded = rs.getBoolean("Responded");
                 Timestamp createdAt = rs.getTimestamp("CreatedAt");
+                int appointmentId = rs.getInt("AppointmentId");
+                int responseId = rs.getInt("ResponseId");
                 
                 Feedback feedback = new Feedback();
                 feedback.setId(id);
@@ -126,6 +123,9 @@ public class FeedbackDAO extends DBContext{
                 feedback.setResponded(responded);
                 feedback.setCreatedAt(createdAt);
                 feedback.setUserId(userId);
+                feedback.setAppointmentId(appointmentId);
+                feedback.setResponseId(responseId);
+                
                 feedbacks.add(feedback);
             }
         } catch (SQLException e) {
@@ -177,6 +177,69 @@ public class FeedbackDAO extends DBContext{
             e.printStackTrace();
         }
         return totalFeedbacks;
+    }
+
+    public void replyToFeedback(int feedbackId, String responseContent) {
+        String sql = "UPDATE Feedback SET Responded = 1 WHERE Id = ?";
+    String sqlInsert = "INSERT INTO FeedbackResponse (FeedbackId, Content, RespondedAt) VALUES (?, ?, GETDATE())";
+
+    try (PreparedStatement stmt1 = connection.prepareStatement(sql);
+         PreparedStatement stmt2 = connection.prepareStatement(sqlInsert)) {
+        stmt1.setInt(1, feedbackId);
+        stmt1.executeUpdate();
+
+        stmt2.setInt(1, feedbackId);
+        stmt2.setString(2, responseContent);
+        stmt2.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    }
+
+    public boolean addFeedback(Feedback fb) {
+        String sql = "INSERT INTO Feedback (AppointmentId, Responded, UserId, Content, Rating, CreatedAt) VALUES (?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+        stmt.setInt(1, fb.getAppointmentId());
+        stmt.setBoolean(2, fb.isResponded());
+        stmt.setInt(3, fb.getUserId());
+        stmt.setString(4, fb.getContent());
+        stmt.setInt(5, fb.getRating());
+        stmt.setTimestamp(6, fb.getCreatedAt());
+
+        return stmt.executeUpdate() > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+    }
+
+    public List<Feedback> getFeedbacksByUserId(int userId) {
+        List<Feedback> feedbacks = new ArrayList<>();
+        String sql = "SELECT * FROM Feedback WHERE userId = ? ";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Feedback fb = new Feedback();
+                    fb.setId(rs.getInt("Id"));
+                    fb.setUserId(rs.getInt("UserId"));
+                    fb.setContent(rs.getString("Content"));
+                    fb.setRating(rs.getInt("Rating"));
+                    fb.setAppointmentId(rs.getInt("AppointmentId"));
+                    fb.setCreatedAt(rs.getTimestamp("CreatedAt"));
+                    fb.setResponded(rs.getBoolean("Responded"));
+
+                    feedbacks.add(fb);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return feedbacks;
     }
 
 }

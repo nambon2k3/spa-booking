@@ -6,6 +6,7 @@ package Controller;
 
 import DAO.UserDAO;
 import Model.User;
+import Utils.EmailService;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -59,7 +60,7 @@ public class ResetPasswordControl extends HttpServlet {
                     + request.getContextPath() + "/new-password?otp=" + otp + "&email=" + emailaddress;
 
             // send mail
-            sendEmail(emailaddress, "Reset password", "Your reset password link: " + resetLink);
+            EmailService.sendEmail(emailaddress, "Reset password", "Your reset password link: " + resetLink);
             
 
             request.setAttribute("errorMessage", "An email was sent!");
@@ -72,48 +73,7 @@ public class ResetPasswordControl extends HttpServlet {
 
     }
 
-    public boolean sendEmail(String to, String subject, String text) {
-        // URL to which the request will be sent
-        String url = "https://mail-sender-service.vercel.app/send-email";
-
-        try {
-            // Create a URL object
-            URL apiUrl = new URL(url);
-
-            // Open a connection to the URL
-            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-
-            // Set the request method
-            connection.setRequestMethod("POST");
-
-            // Enable input/output streams
-            connection.setDoOutput(true);
-
-            // Set the content type
-            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-
-            // Prepare the request payload
-            String payload = "{\"to\":\"" + to + "\",\"subject\":\"" + subject + "\",\"text\":\"" + text + "\"}";
-
-            // Write the payload to the output stream
-            try ( OutputStream os = connection.getOutputStream()) {
-                byte[] input = payload.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            // Get the response code
-            int responseCode = connection.getResponseCode();
-
-            // Close the connection
-            connection.disconnect();
-
-            return responseCode == 200;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+    
 
     public static String generatePassword(int length) {
         // Define characters to use in the password (lowercase letters and digits)
