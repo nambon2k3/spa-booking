@@ -203,4 +203,67 @@ public class InvoiceDAO extends DBContext {
         return 0;
     }
 
+    public List<Invoice> getInvoices(String paymentMethod, int offset, int limit) {
+        List<Invoice> invoices = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Invoices WHERE 1=1");
+
+        if (paymentMethod != null && !paymentMethod.isEmpty()) {
+            sql.append(" AND paymentMethod = ?");
+        }
+
+        sql.append(" ORDER BY createdAt DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+
+            if (paymentMethod != null && !paymentMethod.isEmpty()) {
+                stmt.setString(paramIndex++, paymentMethod);
+            }
+
+            stmt.setInt(paramIndex++, offset);
+            stmt.setInt(paramIndex, limit);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Invoice invoice = new Invoice();
+                invoice.setId(rs.getInt("Id"));
+                invoice.setAppointmentId(rs.getInt("AppointmentId"));
+                invoice.setTotalAmount(rs.getBigDecimal("TotalAmount"));
+                invoice.setPaymentMethod(rs.getString("PaymentMethod"));
+                invoice.setPointsChange(rs.getInt("PointsChange"));
+                invoice.setCreatedAt(rs.getTimestamp("CreatedAt"));
+                invoices.add(invoice);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return invoices;
+    }
+
+    public int countInvoices(String paymentMethod) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Invoices WHERE 1=1");
+
+        if (paymentMethod != null && !paymentMethod.isEmpty()) {
+            sql.append(" AND paymentMethod = ?");
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            if (paymentMethod != null && !paymentMethod.isEmpty()) {
+                stmt.setString(1, paymentMethod);
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 }
