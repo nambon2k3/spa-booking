@@ -631,6 +631,8 @@ public class UserDAO {
         return total;
     }
 
+    
+    
 
     public List<User> getStaffList() {
         List<User> staff = new ArrayList<>();
@@ -650,6 +652,7 @@ public class UserDAO {
         }
 
         return staff;
+
     }
 
     public boolean updateLoyaltyPoints(int userId, int newPoints) {
@@ -664,7 +667,10 @@ public class UserDAO {
             return false;
         }
 
+
     }
+
+   
 
     private void closeResources() {
 

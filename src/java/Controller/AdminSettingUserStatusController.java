@@ -42,7 +42,7 @@ public class AdminSettingUserStatusController extends HttpServlet {
         request.setAttribute("user", user);
 
         // Chuyển hướng đến JSP
-        request.getRequestDispatcher("/admin/setting").forward(request, response);
+        request.getRequestDispatcher("/admin/settingUser").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

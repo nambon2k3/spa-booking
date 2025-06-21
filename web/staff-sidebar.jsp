@@ -59,9 +59,26 @@
 <!-- Sidebar -->
 <nav class="sidebar">
     <ul>
+<<<<<<< HEAD
+
+  
+<!--        <li><a href="product"><i class="fas fa-tshirt mr-2"></i>Product</a></li>
+        <li><a href="user"><i class="fas fa-user-friends mr-2"></i>Customers</a></li>
+        <li><a href="feedback"><i class="fas fa-comments mr-2"></i>Feedbacks</a></li>
+        <li><a href="slider"><i class="fas fa-images mr-2"></i>Sliders</a></li>-->
+        <li><a href="/Spa/marketing/list-post"><i class="fas fa-images mr-2"></i>List Post</a></li>
+        <li><a href="/Spa/admin/setting"><i class="fas fa-images mr-2"></i>Setting List</a></li>
+
+        <li><a href="schedule"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+        <li><a href="appointments"><i class="fas fa-users mr-2"></i>Appointments</a></li>
+        <li><a href="list-post"><i class="fas fa-images mr-2"></i>List Post</a></li>
+        <li><a href="schedule"><i class="fas fa-images mr-2"></i>Work Schedule</a></li>
+
+=======
         <li><a href="dashboard"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
         <li><a href="appointments"><i class="fas fa-users mr-2"></i>Appointments</a></li>
         <li><a href="list-post"><i class="fas fa-images mr-2"></i>List Post</a></li>
+>>>>>>> main
     </ul>
     <ul class="logout">
         <li class="text-light"><i class="fas fa-users mr-2"></i>${sessionScope.user.fullname}</li>

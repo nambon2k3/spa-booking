@@ -1,12 +1,12 @@
+package Controller;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller;
 
-import DAO.SpaServiceDAO;
+
 import DAO.UserDAO;
-import Model.SpaService;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,9 +21,9 @@ import java.util.List;
  *
  * @author PCASUS
  */
-@WebServlet(name = "AdminSettingController", urlPatterns = {"/admin/setting"})
-public class AdminSettingController extends HttpServlet {
-
+@WebServlet(name = "AdminSettingUserListController", urlPatterns = {"/admin/settingUser"})
+public class AdminSettingUserListController extends HttpServlet {
+    
     private static final int PAGE_SIZE = 5;
 
     /**
@@ -43,10 +43,10 @@ public class AdminSettingController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminSettingController</title>");
+            out.println("<title>Servlet AdminSettingUserListController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminSettingController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminSettingUserListController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,20 +64,13 @@ public class AdminSettingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get tab parameter
-        String tab = request.getParameter("tab");
+         String tab = request.getParameter("tab");
         if (tab == null || tab.isEmpty()) {
-            tab = "user"; // Mặc định là tab user
+            tab = "user"; 
         }
-
-        // Get page parameter
         int pageUser = 1;
-        int pageService = 1;
         UserDAO userDAO = new UserDAO();
-        SpaServiceDAO spaServiceDAO = new SpaServiceDAO();
-
         String pageUserStr = request.getParameter("pageUser");
-        String pageServiceStr = request.getParameter("pageService");
 
         if (pageUserStr != null) {
             try {
@@ -89,58 +82,42 @@ public class AdminSettingController extends HttpServlet {
             }
         }
 
-        if (pageServiceStr != null) {
-            try {
-                pageService = Integer.parseInt(pageServiceStr);
-                if (pageService < 1) {
-                    pageService = 1;
-                }
-            } catch (NumberFormatException ignored) {
-            }
+            List<User> users = userDAO.getAllUsers(pageUser, PAGE_SIZE);
+            int totalUsers = userDAO.getTotalUsers();
+            int totalPagesUser = (int) Math.ceil((double) totalUsers / PAGE_SIZE);
+             request.setAttribute("users", users);
+             request.setAttribute("pageUser", pageUser);
+             request.setAttribute("totalPagesUser", totalPagesUser);
+             
+             request.getRequestDispatcher("/admin-settingListUser.jsp").forward(request, response);
+
         }
 
-        List<User> users = userDAO.getAllUsers(pageUser, PAGE_SIZE);
-        List<SpaService> spaServices = spaServiceDAO.getAllPagination(pageService, PAGE_SIZE);
-
-        int totalUsers = userDAO.getTotalUsers();
-        int totalServices = spaServiceDAO.getTotalSpaServices();
-
-        int totalPagesUser = (int) Math.ceil((double) totalUsers / PAGE_SIZE);
-        int totalPagesService = (int) Math.ceil((double) totalServices / PAGE_SIZE);
-
-        request.setAttribute("users", users);
-        request.setAttribute("Services", spaServices);
-        request.setAttribute("pageUser", pageUser);
-        request.setAttribute("pageService", pageService);
-        request.setAttribute("totalPagesUser", totalPagesUser);
-        request.setAttribute("totalPagesService", totalPagesService);
-        request.setAttribute("tab", tab); // Đặt thuộc tính tab để JSP sử dụng
-
-        request.getRequestDispatcher("/admin-settingList.jsp").forward(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        /**
+         * Handles the HTTP <code>POST</code> method.
+         *
+         * @param request servlet request
+         * @param response servlet response
+         * @throws ServletException if a servlet-specific error occurs
+         * @throws IOException if an I/O error occurs
+         */
+        @Override
+        protected void doPost
+        (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+            processRequest(request, response);
+        }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+        /**
+         * Returns a short description of the servlet.
+         *
+         * @return a String containing servlet description
+         */
+        @Override
+        public String getServletInfo
+        
+            () {
         return "Short description";
-    }// </editor-fold>
+        }// </editor-fold>
 
-}
+    }

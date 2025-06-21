@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Model.Appointment;
@@ -9,14 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import DAO.NotifyDAO;
 
-/**
- *
- * @author Legion
- */
 public class AppointmentDAO extends DBContext {
 
     private Connection connection;
@@ -54,7 +43,6 @@ public class AppointmentDAO extends DBContext {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Log or rethrow
         }
 
         return -1; // or 0 if you prefer that as a default fail value
@@ -72,7 +60,6 @@ public class AppointmentDAO extends DBContext {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception appropriately (e.g., log it or rethrow)
         }
 
         return false;
@@ -115,7 +102,6 @@ public class AppointmentDAO extends DBContext {
 
             } else {
                 stmt.setInt(2, offset);
-
             }
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -139,6 +125,56 @@ public class AppointmentDAO extends DBContext {
         }
 
         return appointments;
+    }
+    
+    public int countAppointments(
+            Integer staffId,
+            Integer roomId,
+            Date scheduledFrom,
+            Date scheduledTo
+    ) {
+        int total = 0;
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM appointments WHERE 1=1");
+
+        if (staffId != null) {
+            sql.append(" AND staffId = ?");
+        }
+        if (roomId != null) {
+            sql.append(" AND roomId = ?");
+        }
+        if (scheduledFrom != null) {
+            sql.append(" AND scheduledAt >= ?");
+        }
+        if (scheduledTo != null) {
+            sql.append(" AND scheduledAt <= ?");
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            if (staffId != null) {
+                stmt.setInt(paramIndex++, staffId);
+            }
+            if (roomId != null) {
+                stmt.setInt(paramIndex++, roomId);
+            }
+            if (scheduledFrom != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledFrom.getTime()));
+            }
+            if (scheduledTo != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledTo.getTime()));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return total;
     }
 
     public int countAppointmentsByUserId(int userId, String status) {
@@ -165,8 +201,8 @@ public class AppointmentDAO extends DBContext {
 
         return count;
     }
-
-    public boolean updateStatus(int appointmentId, String status) {
+    
+     public boolean updateStatus(int appointmentId, String status) {
         String sql = "UPDATE Appointments SET status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
@@ -182,7 +218,6 @@ public class AppointmentDAO extends DBContext {
     }
 
     public List<Appointment> getAppointments() {
-
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT a.Id, a.UserId, a.ServiceId, a.StaffId, a.RoomId, a.ScheduledAt, a.Status, u.Fullname "
                 + "FROM Appointments a LEFT JOIN [User] u ON a.UserId = u.ID";
@@ -197,7 +232,6 @@ public class AppointmentDAO extends DBContext {
                 app.setRoomId(rs.getInt("RoomId"));
                 app.setScheduledAt(rs.getTimestamp("ScheduledAt"));
                 app.setStatus(rs.getString("Status"));
-//            app.set(rs.getString("Fullname")); 
                 appointments.add(app);
             }
         } catch (SQLException e) {
@@ -249,7 +283,7 @@ public class AppointmentDAO extends DBContext {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // log error properly in real applications
+            e.printStackTrace();
         }
 
         return appointment;
@@ -323,46 +357,61 @@ public class AppointmentDAO extends DBContext {
         return appointments;
     }
 
-    public int countAppointments(
-            Integer staffId,
-            Integer roomId,
-            Date scheduledFrom,
-            Date scheduledTo
-    ) {
-        int total = 0;
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM appointments WHERE 1=1");
 
-        if (staffId != null) {
-            sql.append(" AND staffId = ?");
+    public boolean updateAppointment(Appointment appointment) {
+        String sql = "UPDATE Appointments SET StaffId = ?, ScheduledAt = ?, ServiceId = ?, RoomId = ?, Status = ? WHERE Id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, appointment.getStaffId());
+            stmt.setTimestamp(2, new Timestamp(appointment.getScheduledAt().getTime()));
+            stmt.setInt(3, appointment.getServiceId());
+            stmt.setInt(4, appointment.getRoomId());
+            stmt.setString(5, appointment.getStatus());
+            stmt.setInt(6, appointment.getId());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        if (roomId != null) {
-            sql.append(" AND roomId = ?");
-        }
-        if (scheduledFrom != null) {
-            sql.append(" AND scheduledAt >= ?");
-        }
-        if (scheduledTo != null) {
-            sql.append(" AND scheduledAt <= ?");
-        }
+        return false;
+        
+    }
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
-            int paramIndex = 1;
-            if (staffId != null) {
-                stmt.setInt(paramIndex++, staffId);
-            }
-            if (roomId != null) {
-                stmt.setInt(paramIndex++, roomId);
-            }
-            if (scheduledFrom != null) {
-                stmt.setDate(paramIndex++, new java.sql.Date(scheduledFrom.getTime()));
-            }
-            if (scheduledTo != null) {
-                stmt.setDate(paramIndex++, new java.sql.Date(scheduledTo.getTime()));
-            }
 
+
+    public boolean addAppointment(Appointment appointment) {
+        String sql = "INSERT INTO appointments (userid, serviceid, staffid, roomid, scheduledat, status) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, appointment.getUserId());
+            stmt.setInt(2, appointment.getServiceId());
+            stmt.setInt(3, appointment.getStaffId());
+            stmt.setInt(4, appointment.getRoomId());
+            stmt.setTimestamp(5, new Timestamp(appointment.getScheduledAt().getTime()));
+            stmt.setString(6, appointment.getStatus());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public List<Appointment> getStaffAppointments(int id) {
+        List<Appointment> appointments = new ArrayList<>();
+        String sql = "SELECT a.Id, a.UserId, a.ServiceId, a.StaffId, a.RoomId, a.ScheduledAt, a.Status, u.Fullname " +
+                     "FROM Appointments a LEFT JOIN [User] u ON a.UserId = u.ID WHERE a.StaffId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    total = rs.getInt(1);
+                while (rs.next()) {
+                    Appointment app = new Appointment();
+                    app.setId(rs.getInt("Id"));
+                    app.setUserId(rs.getInt("UserId"));
+                    app.setServiceId(rs.getInt("ServiceId"));
+                    app.setStaffId(rs.getInt("StaffId"));
+                    app.setRoomId(rs.getInt("RoomId"));
+                    app.setScheduledAt(rs.getTimestamp("ScheduledAt"));
+                    app.setStatus(rs.getString("Status"));
+                    appointments.add(app);
                 }
             }
 
@@ -370,46 +419,11 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
 
-        return total;
+
+        return appointments;
     }
 
-    public boolean updateAppointment(Appointment appointment) {
-        String sql = "UPDATE appointments SET userid = ?, serviceid = ?, staffid = ?, roomid = ?, scheduledat = ?, status = ? WHERE id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, appointment.getUserId());
-            stmt.setInt(2, appointment.getServiceId());
-            stmt.setInt(3, appointment.getStaffId());
-            stmt.setInt(4, appointment.getRoomId());
-            stmt.setTimestamp(5, new Timestamp(appointment.getScheduledAt().getTime()));
-            stmt.setString(6, appointment.getStatus());
-            stmt.setInt(7, appointment.getId());
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean addAppointment(Appointment appointment) {
-        String sql = "INSERT INTO appointments (userid, serviceid, staffid, roomid, scheduledat, status) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, appointment.getUserId());
-            stmt.setInt(2, appointment.getServiceId());
-            stmt.setInt(3, appointment.getStaffId());
-            stmt.setInt(4, appointment.getRoomId());
-            stmt.setTimestamp(5, new Timestamp(appointment.getScheduledAt().getTime()));
-            stmt.setString(6, appointment.getStatus());
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
+        
+    
 
 }

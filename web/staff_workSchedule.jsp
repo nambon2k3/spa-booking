@@ -37,7 +37,7 @@
                 </style>
     </head>
     <body>
-            <%@ include file="admin-sidebar.jsp" %>
+            <%@ include file="staff-sidebar.jsp" %>
             <div class="main-content">
                     <div class="container">
                             <div id="calendar"></div>
@@ -77,7 +77,7 @@
                                             </div>
                                         <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="button" class="btn btn-primary" id="confirmAssign">Assign</button>
+<!--                                                <button type="button" class="btn btn-primary" id="confirmAssign">Assign</button>-->
                                             </div>
                                     </div>
                             </div>

@@ -41,7 +41,7 @@ public class AdminSettingServiceStatusController extends HttpServlet {
         serviceDAO.updateService(service);
         request.setAttribute("isSuccess", true);
         request.setAttribute("service", service);
-        request.getRequestDispatcher("/admin/setting").forward(request, response);
+        request.getRequestDispatcher("/admin/settingService").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
