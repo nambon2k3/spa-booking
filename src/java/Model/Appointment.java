@@ -12,6 +12,7 @@ import DAO.RoomDAO;
 import DAO.SpaServiceDAO;
 import DAO.UserDAO;
 import java.util.Date;
+import java.util.List;
 
 public class Appointment {
     private int id;
@@ -28,7 +29,7 @@ public class Appointment {
     private User staff;
     private SpaService spaService;
     private Room room;
-
+    
     public User getStaff() {
         return new UserDAO().getUserById(staffId);
     }

@@ -5,7 +5,11 @@
 package Controller;
 
 import DAO.AppointmentDAO;
+import DAO.FeedbackDAO;
+import DAO.FeedbackResponseDAO;
 import Model.Appointment;
+import Model.Feedback;
+import Model.FeedbackResponse;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,11 +59,20 @@ public class HistoryBookingController extends HttpServlet {
         List<Appointment> appointments = appointmentDAO.getAppointmentsByUserId(userId, status, page);
         int totalAppointments = appointmentDAO.countAppointmentsByUserId(userId, status);
         int totalPages = (int) Math.ceil((double) totalAppointments / 5);
+        List<Feedback> feedbacks = new FeedbackDAO().getFeedbacksByUserId(userId);
+        List<Integer> feedbackIds = new ArrayList();
+        for(Feedback fb :feedbacks){
+            feedbackIds.add(fb.getId());
+        }
+        
+        List<FeedbackResponse> fbRes = new FeedbackResponseDAO().getFeedbackResponsesByFbIds(feedbackIds);
 
         System.out.println(totalAppointments);
 
         // Gán vào request scope
         request.setAttribute("appointments", appointments);
+        request.setAttribute("feedbacks", feedbacks);
+        request.setAttribute("feedbackResponses", fbRes);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("userId", userId);

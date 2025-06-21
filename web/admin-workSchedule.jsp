@@ -108,14 +108,14 @@
                                                 const event = info.event;
                                                 $('#appointmentId').val(event.id);
                                                 $('#staffSelect').val(event.extendedProps.staffId || '');
-            //                    $('#serviceSelect').val(event.extendedProps.serviceId);
+                            //                    $('#serviceSelect').val(event.extendedProps.serviceId);
 
 
-                           $('#serviceSelect').val(event.extendedProps.serviceId || ''); 
+                            $('#serviceSelect').val(event.extendedProps.serviceId || '');
 
 
-                                                const localISO = new Date(event.start - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0,16);
-$('#appointmentDate').val(localISO);
+                                                const localISO = new Date(event.start - (new Date().getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+                            $('#appointmentDate').val(localISO);
 
                                                 $('#staffAssignmentModal').modal('show');
                                         },

@@ -37,7 +37,7 @@
 
             <!-- Filter Form -->
             <form action="appointments" method="get" class="form-inline mb-3">
-                
+
                 <div class="form-group mr-2">
                     <select class="form-control" name="roomId">
                         <option value="">All Rooms</option>
@@ -53,7 +53,7 @@
                     <input type="date" class="form-control" name="scheduledTo" value="${scheduledTo}" placeholder="To">
                 </div>
                 <button type="submit" class="btn btn-primary">Search</button>
-                <button type="button" class="btn btn-primary ml-2">Add new appointment</button>
+                <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#addAppointmentModal">Add new appointment</button>
             </form>
 
 
@@ -178,6 +178,82 @@
                 </div>
             </c:forEach>
 
+            <div class="modal fade" id="addAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add new appointment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="appointments" method="post">
+                                <input type="hidden" name="action" value="create">
+
+                                <!-- User -->
+                                <div class="form-group">
+                                    <label for="userId">User</label>
+                                    <select class="form-control" name="userId" required>
+                                        <c:forEach var="user" items="${users}">
+                                            <option value="${user.id}">${user.fullname}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <!-- Service -->
+                                <div class="form-group">
+                                    <label for="serviceId">Service</label>
+                                    <select class="form-control" name="serviceId" required onchange="change(this)">
+                                        <c:forEach var="service" items="${spaServices}">
+                                            <option value="${service.id}"
+                                                    data-rooms='[
+                                                    <c:forEach var="room" items="${service.rooms}" varStatus="loop">
+                                                        {"id": "${room.id}", "name": "${room.name}"}<c:if test="${!loop.last}">,</c:if>
+                                                    </c:forEach>
+                                                    ]'>
+                                                ${service.name}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+
+                                </div>
+
+                                <!-- Room -->
+
+                                <!-- Room dropdown (dynamically filled) -->
+                                <div class="form-group">
+                                    <label for="roomId">Room</label>
+                                    <select class="form-control" name="roomId" id="roomSelect" required>
+                                        <option value="">-- Please select a service first --</option>
+                                    </select>
+                                </div>
+
+                                <!-- Schedule -->
+                                <div class="form-group">
+                                    <label for="scheduledAt">Scheduled At</label>
+                                    <input type="datetime-local" class="form-control" name="scheduledAt" required>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" name="status">
+                                        <option value="Pending" selected>Pending</option>
+                                        <option value="Scheduled" selected>Scheduled</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-success" style="float: right">Add Appointment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Bootstrap JS and jQuery -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -187,16 +263,16 @@
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
 
             <script>
-                $(document).ready(function () {
-                    $('#userTable').DataTable({
-                        "paging": false,
-                        "lengthChange": false,
-                        "searching": false,
-                        "ordering": true,
-                        "info": false,
-                        "autoWidth": false
-                    });
-                });
+                                        $(document).ready(function () {
+                                            $('#userTable').DataTable({
+                                                "paging": false,
+                                                "lengthChange": false,
+                                                "searching": false,
+                                                "ordering": true,
+                                                "info": false,
+                                                "autoWidth": false
+                                            });
+                                        });
             </script>
 
             <script>
@@ -219,19 +295,45 @@
 
                         // dịch image thành url
                         const reader = new FileReader();
-
                         reader.onload = function (e) {
                             // Update the image src
                             image.src = e.target.result;
-
                             // Optionally, update the hidden input with the base64 data URL
                             hiddenInput.value = e.target.result;
                         };
-
                         reader.readAsDataURL(file);
                     }
                 }
             </script>
 
+            <script>
+                function change(serviceSelectElement) {
+                    const selectedOption = serviceSelectElement.options[serviceSelectElement.selectedIndex];
+                    const roomSelect = document.getElementById("roomSelect");
+
+                    const roomsJson = selectedOption.getAttribute("data-rooms");
+                    let rooms = [];
+
+                    try {
+                        rooms = JSON.parse(roomsJson);
+                    } catch (e) {
+                        console.error("Invalid rooms JSON", e);
+                    }
+
+                    roomSelect.innerHTML = "";
+
+                    if (rooms.length === 0) {
+                        roomSelect.innerHTML = "<option value=''>No rooms available</option>";
+                        return;
+                    }
+
+                    rooms.forEach(room => {
+                        const option = document.createElement("option");
+                        option.value = room.id;
+                        option.textContent = room.name;
+                        roomSelect.appendChild(option);
+                    });
+                }
+            </script>
     </body>
 </html>

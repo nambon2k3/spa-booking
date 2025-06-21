@@ -195,18 +195,102 @@
                                             <c:when test="${appt.status == 'Cancelled'}">
 
                                             </c:when>
-                                            
-                                            <c:when test="${appt.status == 'Completed'}">
 
-                                            </c:when>
-                                            
+
+
+
+
+
                                             <c:otherwise>
                                                 <span class="badge bg-secondary">${appt.status}</span>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                 </tr>
+                                <!-- Feedback row nếu status là Completed -->
+                                <c:if test="${appt.status == 'Completed'}">
+                                    <tr>
+                                        <td colspan="8">
+                                            <c:set var="hasFeedback" value="false" />
+                                            <c:forEach var="fb" items="${feedbacks}">
+                                                <c:if test="${fb.appointmentId == appt.id}">
+                                                    <c:set var="hasFeedback" value="true" />
+                                                    <div class="mt-2 p-3 border rounded bg-light d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="text-primary mb-2">📣 Phản hồi của bạn</h6>
+                                                            <p class="mb-1"><strong>Đánh giá:</strong>
+                                                                <c:forEach var="i" begin="1" end="${fb.rating}">
+                                                                    <span style="color: orange;">★</span>
+                                                                </c:forEach>
+                                                            </p>
+                                                            <p class="mb-1"><strong>Nội dung:</strong> ${fb.content}</p>
+                                                            <p class="text-muted mb-0"><small>Gửi lúc: ${fb.createdAt}</small></p>
+                                                        </div>
+                                                        <div>
+                                                            <span class="badge bg-success">Đã phản hồi</span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- ✅ PHẢN HỒI TỪ ADMIN -->
+                                                    <c:forEach var="res" items="${feedbackResponses}">
+                                                        <c:if test="${res.feedbackId == fb.id}">
+                                                            <div class="mt-2 ms-4 p-3 border-start border-3 border-primary bg-white">
+                                                                <h6 class="text-secondary mb-2">👨‍💼 Phản hồi từ quản lý</h6>
+                                                                <p class="mb-1">${res.content}</p>
+                                                                <p class="text-muted mb-0"><small>Trả lời lúc: ${res.respondedAt}</small></p>
+                                                            </div>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </c:forEach>
 
+                                            <!-- Nếu chưa phản hồi -->
+                                            <c:if test="${!hasFeedback}">
+                                                <button type="button" class="open-modal-btn btn-sm btn btn-warning mt-2" data-id="fb-${appt.id}">
+                                                    Gửi phản hồi
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="custom-modal" id="modal-fb-${appt.id}" style="display: none;">
+                                                    <div class="modal-content">
+                                                        <h3>Phản hồi cho lịch hẹn #${appt.id}</h3>
+
+                                                        <form action="submit-feedback" method="post">
+                                                            <input type="hidden" name="appointmentId" value="${appt.id}" />
+                                                            <input type="hidden" name="serviceId" value="${appt.spaService.id}" />
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Dịch vụ</label>
+                                                                <input type="text" class="form-control" value="${appt.spaService.name}" readonly>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Phản hồi của bạn</label>
+                                                                <textarea name="content" rows="4" class="form-control" required placeholder="Viết cảm nhận của bạn..."></textarea>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Đánh giá</label>
+                                                                <select name="rating" class="form-select" required>
+                                                                    <option value="">-- Chọn mức độ hài lòng --</option>
+                                                                    <option value="1">1 - Rất tệ</option>
+                                                                    <option value="2">2 - Tệ</option>
+                                                                    <option value="3">3 - Bình thường</option>
+                                                                    <option value="4">4 - Tốt</option>
+                                                                    <option value="5">5 - Rất tốt</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Gửi phản hồi</button>
+                                                                <button type="button" class="btn btn-secondary close-btn" data-id="fb-${appt.id}">Đóng</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </td>
+                                    </tr>
+                                </c:if>
                             </c:forEach>
                         </tbody>
                     </table>

@@ -239,7 +239,7 @@ public class AppointmentDAO extends DBContext {
         }
         return appointments;
     }
-    
+
     public boolean updateAppointment(int appointmentId, int staffId, Timestamp newStart, int serviceId) {
         String sql = "UPDATE Appointments SET StaffId = ?, ScheduledAt = ?, ServiceId = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -357,6 +357,7 @@ public class AppointmentDAO extends DBContext {
         return appointments;
     }
 
+
     public boolean updateAppointment(Appointment appointment) {
         String sql = "UPDATE Appointments SET StaffId = ?, ScheduledAt = ?, ServiceId = ?, RoomId = ?, Status = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -371,7 +372,10 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
+        
     }
+
+
 
     public boolean addAppointment(Appointment appointment) {
         String sql = "INSERT INTO appointments (userid, serviceid, staffid, roomid, scheduledat, status) VALUES (?, ?, ?, ?, ?, ?)";
@@ -388,6 +392,7 @@ public class AppointmentDAO extends DBContext {
         }
         return false;
     }
+
 
     public List<Appointment> getStaffAppointments(int id) {
         List<Appointment> appointments = new ArrayList<>();
@@ -409,10 +414,16 @@ public class AppointmentDAO extends DBContext {
                     appointments.add(app);
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+
         return appointments;
     }
+
+        
+    
+
 }

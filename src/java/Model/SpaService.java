@@ -5,7 +5,9 @@
 package Model;
 
 import DAO.CategoryDAO;
+import DAO.RoomDAO;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *
@@ -21,6 +23,18 @@ public class SpaService {
     private int categoryId;
     private String image;
     private Category category;
+    
+        private List<Room> rooms;
+
+    
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+    
+    public List<Room> getRooms() {
+        return new RoomDAO().getRoomsBySpaServiceId(id);
+    }
 
     public SpaService() {
     }

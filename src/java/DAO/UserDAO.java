@@ -271,6 +271,36 @@ public class UserDAO {
         }
         return userList;
     }
+    
+    public List<User> getAllCustomers() {
+        List<User> userList = new ArrayList<>();
+        String query = "SELECT * FROM [User] where roleid not in (2, 4)";
+        try {
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("ID"));
+                user.setEmail(rs.getString("Email"));
+                user.setPassword(rs.getString("Password"));
+                user.setFullname(rs.getString("Fullname"));
+                user.setGender(rs.getString("Gender"));
+                user.setAddress(rs.getString("Address"));
+                user.setPhone(rs.getString("Phone"));
+                user.setIsDeleted(rs.getBoolean("IsDeleted"));
+                user.setCreatedAt(rs.getDate("CreatedAt"));
+                user.setCreatedBy(rs.getInt("CreatedBy"));
+                user.setAvatar(rs.getString("Avatar"));
+                user.setChangeHistory(rs.getString("ChangeHistory"));
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResources();
+        }
+        return userList;
+    }
 
     // Get all users with pagination
     public List<User> getAllUsers(int pageNumber, int pageSize) {
@@ -603,19 +633,6 @@ public class UserDAO {
 
     
     
-     public boolean updateLoyaltyPoints(int userId, int newPoints) {
-        String sql = "UPDATE [User] SET loyaltyPoints = loyaltyPoints + ? WHERE id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, newPoints);
-            stmt.setInt(2, userId);
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace(); // hoặc logging
-            return false;
-        }
-
-    }
 
     public List<User> getStaffList() {
         List<User> staff = new ArrayList<>();
@@ -635,8 +652,22 @@ public class UserDAO {
         }
 
         return staff;
-        
-        
+
+    }
+
+    public boolean updateLoyaltyPoints(int userId, int newPoints) {
+        String sql = "UPDATE [User] SET loyaltyPoints = loyaltyPoints + ? WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, newPoints);
+            stmt.setInt(2, userId);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // hoặc logging
+            return false;
+        }
+
+
     }
 
    

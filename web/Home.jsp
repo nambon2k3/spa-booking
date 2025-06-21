@@ -33,7 +33,91 @@
         <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
+        <style>
+            /* Contact Button */
+            #contact-button {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background-color: #007bff;
+                color: white;
+                padding: 15px 18px;
+                border-radius: 50%;
+                cursor: pointer;
+                z-index: 9999;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                font-size: 20px;
+            }
+
+            /* Modal Form */
+            .contact-modal {
+                display: none;
+                position: fixed;
+                z-index: 10000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.5);
+            }
+
+            .contact-form-content {
+                background-color: #fff;
+                margin: 10% auto;
+                padding: 30px 20px;
+                border-radius: 8px;
+                width: 90%;
+                max-width: 400px;
+                position: relative;
+            }
+
+            .contact-form-content input,
+            .contact-form-content textarea {
+                width: 100%;
+                margin-bottom: 12px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            #close-contact-form {
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 22px;
+                cursor: pointer;
+            }
+
+        </style>
+        
+
     </head>
+
+    <!-- Contact Floating Button -->
+    <div id="contact-button">
+        <i class="fa fa-envelope"></i>
+    </div>
+
+    <!-- Contact Form Modal -->
+    <div id="contact-form-modal" class="contact-modal">
+        <div class="contact-form-content">
+            <span id="close-contact-form">&times;</span>
+            <h4>Liên hệ với chúng tôi</h4>
+            <form action="contact" method="post">
+                <input type="text" name="name" placeholder="Họ tên" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="phoneNumber" placeholder="Số điện thoại" required>
+                <input type="text" name="subject" placeholder="Chủ đề">
+                <textarea name="message" placeholder="Nội dung..." rows="4" required></textarea>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Gửi</button>
+            </form>
+        </div>
+    </div>
+    <c:if test="${param.contact == 'success'}">
+    <script>alert("Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm!");</script>
+</c:if>
+
 
     <body>
         <!-- Page Preloder -->
@@ -255,6 +339,23 @@
         </div>
         <!-- Search model end -->
 
+        <script>
+            document.getElementById('contact-button').addEventListener('click', function () {
+                document.getElementById('contact-form-modal').style.display = 'block';
+            });
+
+            document.getElementById('close-contact-form').addEventListener('click', function () {
+                document.getElementById('contact-form-modal').style.display = 'none';
+            });
+
+            // Optional: close form when clicking outside
+            window.onclick = function (event) {
+                let modal = document.getElementById('contact-form-modal');
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
         <!-- Js Plugins -->
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
