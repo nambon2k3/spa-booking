@@ -44,13 +44,17 @@
                 <div class="form-group mr-2">
                     <select class="form-control" name="paymentMethod">
                         <option value="">All Methods</option>
-                        <option value="vnpay" ${paymentMethod == 'vnpay' ? 'selected' : ''}>VNPAY</option>
-                        <option value="direct" ${paymentMethod == 'direct' ? 'selected' : ''}>Direct</option>
+                        <option value="vnpay" ${paymentMethod == 'VNPAY' ? 'selected' : ''}>VNPAY</option>
+                        <option value="direct" ${paymentMethod == 'Direct' ? 'selected' : ''}>Direct</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary ml-3">Search</button>
+                
+                <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#addInvoiceModal">Add new</button>
+
             </form>
+
 
 
 
@@ -186,7 +190,7 @@
                                     <select class="form-control" name="appointmentId" required>
                                         <option value="">-- Select Appointment --</option>
                                         <c:forEach var="a" items="${appointments}">
-                                            <option value="${a.id}">Appointment #${a.id} - ${a.user.fullname}</option>
+                                            <option value="${a.id}">Appointment #${a.id} - ${a.spaService.name} - ${a.user.fullname}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

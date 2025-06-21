@@ -26,7 +26,7 @@ public class InvoiceDAO extends DBContext {
     }
 
     // Create
-    public void addInvoice(Invoice invoice) {
+    public boolean addInvoice(Invoice invoice) {
         String sql = "INSERT INTO Invoices (AppointmentId, TotalAmount, PaymentMethod, PointsChange, CreatedAt) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, invoice.getAppointmentId());
@@ -34,10 +34,13 @@ public class InvoiceDAO extends DBContext {
             stmt.setString(3, invoice.getPaymentMethod());
             stmt.setInt(4, invoice.getPointsChange());
             stmt.setTimestamp(5, new Timestamp(invoice.getCreatedAt().getTime()));
-            stmt.executeUpdate();
+
+            int rows = stmt.executeUpdate();
+            return rows > 0; // Trả về true nếu thêm thành công
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false; // Thêm thất bại
     }
 
     // Read All
@@ -117,19 +120,23 @@ public class InvoiceDAO extends DBContext {
     }
 
     // Update
-    public void updateInvoice(Invoice invoice) {
-        String sql = "UPDATE Invoices SET AppointmentId = ?, TotalAmount = ?, PaymentMethod = ?, PointsChange = ?, CreatedAt = ? WHERE Id = ?";
+    public boolean updateInvoice(Invoice invoice) {
+        String sql = "UPDATE Invoices SET AppointmentId = ?, TotalAmount = ?, PaymentMethod = ?, PointsChange = ? WHERE Id = ?";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, invoice.getAppointmentId());
             stmt.setBigDecimal(2, invoice.getTotalAmount());
             stmt.setString(3, invoice.getPaymentMethod());
             stmt.setInt(4, invoice.getPointsChange());
-            stmt.setTimestamp(5, new Timestamp(invoice.getCreatedAt().getTime()));
-            stmt.setInt(6, invoice.getId());
-            stmt.executeUpdate();
+            stmt.setInt(5, invoice.getId());
+
+            int rows = stmt.executeUpdate();
+            return rows > 0; // Trả về true nếu có ít nhất 1 dòng được cập nhật
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return false; // Cập nhật thất bại
     }
 
     // Delete
@@ -203,21 +210,34 @@ public class InvoiceDAO extends DBContext {
         return 0;
     }
 
-    public List<Invoice> getInvoices(String paymentMethod, int offset, int limit) {
+    public List<Invoice> getInvoices(String paymentMethod, Integer staffId, int offset, int limit) {
         List<Invoice> invoices = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM Invoices WHERE 1=1");
+        StringBuilder sql = new StringBuilder(
+                "SELECT i.*, a.StaffId "
+                + "FROM Invoices i "
+                + "JOIN Appointments a ON i.AppointmentId = a.Id "
+                + "WHERE 1=1"
+        );
 
         if (paymentMethod != null && !paymentMethod.isEmpty()) {
-            sql.append(" AND paymentMethod = ?");
+            sql.append(" AND i.PaymentMethod = ?");
         }
 
-        sql.append(" ORDER BY createdAt DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        if (staffId != null) {
+            sql.append(" AND a.StaffId = ?");
+        }
+
+        sql.append(" ORDER BY i.CreatedAt DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
             int paramIndex = 1;
 
             if (paymentMethod != null && !paymentMethod.isEmpty()) {
                 stmt.setString(paramIndex++, paymentMethod);
+            }
+
+            if (staffId != null) {
+                stmt.setInt(paramIndex++, staffId);
             }
 
             stmt.setInt(paramIndex++, offset);
@@ -232,6 +252,9 @@ public class InvoiceDAO extends DBContext {
                 invoice.setPaymentMethod(rs.getString("PaymentMethod"));
                 invoice.setPointsChange(rs.getInt("PointsChange"));
                 invoice.setCreatedAt(rs.getTimestamp("CreatedAt"));
+
+                // Nếu bạn muốn lưu thêm staffId trong invoice object (custom class)
+                // bạn có thể mở rộng class Invoice để chứa staffId hoặc Appointment embedded
                 invoices.add(invoice);
             }
 
@@ -242,16 +265,31 @@ public class InvoiceDAO extends DBContext {
         return invoices;
     }
 
-    public int countInvoices(String paymentMethod) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Invoices WHERE 1=1");
+    public int countInvoices(String paymentMethod, Integer staffId) {
+        StringBuilder sql = new StringBuilder(
+                "SELECT COUNT(*) "
+                + "FROM Invoices i "
+                + "JOIN Appointments a ON i.AppointmentId = a.Id "
+                + "WHERE 1=1"
+        );
 
         if (paymentMethod != null && !paymentMethod.isEmpty()) {
-            sql.append(" AND paymentMethod = ?");
+            sql.append(" AND i.PaymentMethod = ?");
+        }
+
+        if (staffId != null) {
+            sql.append(" AND a.StaffId = ?");
         }
 
         try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+
             if (paymentMethod != null && !paymentMethod.isEmpty()) {
-                stmt.setString(1, paymentMethod);
+                stmt.setString(paramIndex++, paymentMethod);
+            }
+
+            if (staffId != null) {
+                stmt.setInt(paramIndex++, staffId);
             }
 
             ResultSet rs = stmt.executeQuery();
