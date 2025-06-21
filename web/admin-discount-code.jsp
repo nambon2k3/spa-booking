@@ -16,7 +16,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body class="bg-light py-4">
-        <div class="container">
+        <%@ include file="admin-sidebar.jsp" %>
+        <div class="main-content">
             <h2 class="mb-4 text-primary text-center">Quản lý mã giảm giá</h2>
             <div class="d-flex justify-content-end mb-3">
                 <a href="../create-discount-code.jsp" class="btn btn-success">+ Tạo mã mới</a>

@@ -34,7 +34,7 @@
     </head>
 
     <body>
-        <%@ include file="marketing-sidebar.jsp" %>
+        <%@ include file="admin-sidebar.jsp" %>
 
 
 

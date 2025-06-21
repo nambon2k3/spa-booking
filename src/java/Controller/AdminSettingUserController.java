@@ -106,7 +106,7 @@ public class AdminSettingUserController extends HttpServlet {
         user.setFullname(fullname);
         user.setAddress(address);
         user.setPhone(phone);
-        user.setGender(gender.equals("male") ? "1" : "0");
+        user.setGender(gender);
         user.setRoleId(roleId);
         if (listItem == null || listItem.getSize() == 0) {
             userDAO.updateStaff(user);

@@ -46,6 +46,45 @@ public class AdminSettingAddUserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+    }
+
+    public static String generateRandomPassword(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder password = new StringBuilder();
+        Random rnd = new Random();
+        for (int i = 0; i < length; i++) {
+            password.append(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        return password.toString();
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("../admin-settingAddUser.jsp").forward(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String email = request.getParameter("email");
         String fullname = request.getParameter("name");
         String address = request.getParameter("add");
@@ -56,8 +95,7 @@ public class AdminSettingAddUserController extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         User checkExist = new UserDAO().getUserByEmail(email);
         if (checkExist != null) {
-            request.setAttribute("isSuccess", false);
-            request.getRequestDispatcher("/admin-settingAddUser.jsp").forward(request, response);
+            response.sendRedirect("add?fail");
         } else {
             User user = new User();
             user.setEmail(email);
@@ -96,49 +134,10 @@ public class AdminSettingAddUserController extends HttpServlet {
                 request.setAttribute("isSuccess", false);
             }
             request.setAttribute("isSuccess", true);
-            request.getRequestDispatcher("/admin-settingAddUser.jsp").forward(request, response);
+            
+            response.sendRedirect("add?fail");
 
         }
-
-    }
-
-    public static String generateRandomPassword(int length) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder password = new StringBuilder();
-        Random rnd = new Random();
-        for (int i = 0; i < length; i++) {
-            password.append(chars.charAt(rnd.nextInt(chars.length())));
-        }
-        return password.toString();
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

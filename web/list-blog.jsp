@@ -79,16 +79,9 @@
                             <c:forEach var="post" items="${posts}">
                                 <div class="col-lg-4 col-md-6">
                                     <div class="room-item">
-                                        <img src="${post.imgURL}" alt="" height="500">
+                                        <img src="${post.imgURL}" alt="" height="300">
                                         <div class="ri-text">
-                                            <h4>${service.title}</h4>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>${fn:substring(post.content, 0, 50)}...</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <h4>${post.title}</h4>
                                             <a href="./blog-detail?id=${post.id}" class="primary-btn">More Details</a>
                                         </div>
                                     </div>

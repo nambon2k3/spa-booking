@@ -44,7 +44,9 @@
     </style>
 </head>
 <body class="bg-light py-4">
-    <div class="container">
+    
+    <%@ include file="admin-sidebar.jsp" %>
+    <div class="main-content">
         <h1 class="text-center mb-4 text-primary">Danh sách phản hồi từ khách hàng</h1>
 
         <!-- Form lọc -->

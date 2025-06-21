@@ -82,11 +82,11 @@
                         <div class="form-group">
                             <label>Gender</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male" required ${user.gender eq 1 ? 'checked' : ''}>
+                                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" required ${user.gender eq 'Male' ? 'checked' : ''}>
                                 <label class="form-check-label" for="genderMale">Male</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female" ${user.gender eq 0 ? 'checked' : ''}>
+                                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" ${user.gender eq 'Female' ? 'checked' : ''}>
                                 <label class="form-check-label" for="genderFemale">Female</label>
                             </div>
 

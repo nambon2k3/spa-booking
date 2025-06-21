@@ -111,7 +111,7 @@
                             <div class="form-group" style="margin-left: 10px">
                                 <label for="sortOrder"></label><br>
                                 <button type="button" class="btn btn-success"
-                                        onclick="window.location.href = '/Spa/admin-settingAddUser.jsp'">
+                                        onclick="window.location.href = '/Spa/admin/add'">
                                     Add New User
                                 </button>
                             </div>

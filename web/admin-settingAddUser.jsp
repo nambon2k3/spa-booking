@@ -34,21 +34,19 @@
     </head>
 
     <body>
-        <%@ include file="marketing-sidebar.jsp" %>
+        <%@ include file="admin-sidebar.jsp" %>
 
         <div class="mt-5 main-content">
 
             <div class="mt-5 main-content">
-                <c:if test="${isSuccess ne null && isSuccess}">
-                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert" id="mess">
-                        <strong>Save success!</strong> 
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <c:if test="${param.success ne null}">
+                    <div class="alert alert-success" role="alert">
+                        Success!
                     </div>
                 </c:if>
-                <c:if test="${isSuccess ne null && !isSuccess}">
-                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" id="mess">
-                        <strong>Save failed!</strong> You should check your network.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <c:if test="${param.fail ne null}">
+                    <div class="alert alert-danger" role="alert">
+                        Failed!
                     </div>
                 </c:if>
                 <div class="card-header">
@@ -61,7 +59,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                       
+
                         <div class="form-group">
                             <label for="postTitleEdit">Email</label>
                             <input type="text" class="form-control" id="Email" name="email" required value="">
@@ -83,11 +81,11 @@
                         <div class="form-group">
                             <label>Gender</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male"  }>
+                                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male"  }>
                                 <label class="form-check-label" for="genderMale">Male</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female" }>
+                                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" }>
                                 <label class="form-check-label" for="genderFemale">Female</label>
                             </div>
 
@@ -103,7 +101,7 @@
                             </select>
                         </div>
 
-                      
+
                         <div class="form-group">
                             <label for="userAvatar">Upload New Avatar</label>
                             <input type="file" class="form-control" id="userAvatar" name="file" accept="image/jpeg,image/jpg,image/png">
@@ -206,28 +204,28 @@
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
         <script>
-                           var quill = new Quill('#postContentEdit', {
-                               theme: 'snow',
-                               modules: {
-                                   toolbar: [
-                                       [{'header': [1, 2, 3, false]}],
-                                       ['bold', 'italic', 'underline', 'strike'],
-                                       [{'align': []}],
-                                       [{'list': 'ordered'}, {'list': 'bullet'}],
-                                       ['link', 'image'],
-                                       ['clean']
-                                   ]
-                               }
-                           });
+                            var quill = new Quill('#postContentEdit', {
+                                theme: 'snow',
+                                modules: {
+                                    toolbar: [
+                                        [{'header': [1, 2, 3, false]}],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{'align': []}],
+                                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                                        ['link', 'image'],
+                                        ['clean']
+                                    ]
+                                }
+                            });
 
-                           var form = document.getElementById('form');  // hoặc id form cụ thể
-                           var content = document.getElementById('contenttent');
+                            var form = document.getElementById('form');  // hoặc id form cụ thể
+                            var content = document.getElementById('contenttent');
 
-                           console.log(form)
+                            console.log(form)
 
-                           form.addEventListener('submit', function (event) {
-                               document.getElementById('editContent').value = quill.root.innerHTML;
-                           });
+                            form.addEventListener('submit', function (event) {
+                                document.getElementById('editContent').value = quill.root.innerHTML;
+                            });
         </script>
 
     </body>

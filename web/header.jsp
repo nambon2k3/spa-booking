@@ -77,6 +77,7 @@
                                     <ul>
                                         <li class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
                                         <li><a href="${pageContext.request.contextPath}/public-services-list">Services</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/list-blog">Blogs</a></li>
                                         <li><a href="./about-us.html">About Us</a></li>
 <!--                                        <li><a href="./pages.html">Pages</a>
                                             <ul class="dropdown">

@@ -59,9 +59,11 @@
         <li><a href="settingUser"><i class="fas fa-users mr-2"></i>Customers</a></li>
         <li><a href="settingService"><i class="fas fa-users mr-2"></i>Services</a></li>
         <li><a href="appointments"><i class="fas fa-users mr-2"></i>Appointments</a></li>
-        <li><a href="setting"><i class="fas fa-cog mr-2"></i>Settings</a></li>
+        <li><a href="setting"><i class="fas fa-cog mr-2"></i>Setting Roles</a></li>
         <li><a href="workSchedule"><i class="fas fa-cog mr-2"></i>Work Schedule</a></li>
          <li><a href="admin-revenueReport.jsp"><i class="fas fa-cog mr-2"></i>Revenue report</a></li>
+         <li><a href="discount-code"><i class="fas fa-images mr-2"></i>Discount Management</a></li>
+         <li><a href="feedback"><i class="fas fa-images mr-2"></i>Feedback</a></li>
     </ul>
     <ul class="logout">
         <li class="text-light"><i class="fas fa-users mr-2"></i>${sessionScope.user.fullname}</li>
