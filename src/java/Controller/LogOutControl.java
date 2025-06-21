@@ -27,7 +27,7 @@ public class LogOutControl extends HttpServlet {
             throws ServletException, IOException {
 
         request.getSession().invalidate();
-        response.sendRedirect("login");
+        response.sendRedirect("home");
 
     }
 

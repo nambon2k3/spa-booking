@@ -181,7 +181,7 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
-public List<Appointment> getAppointments() {
+    public List<Appointment> getAppointments() {
 
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT a.Id, a.UserId, a.ServiceId, a.StaffId, a.RoomId, a.ScheduledAt, a.Status, u.Fullname "
@@ -206,7 +206,7 @@ public List<Appointment> getAppointments() {
         return appointments;
     }
 
-public boolean updateAppointment(int appointmentId, int staffId, Timestamp newStart, int serviceId) {
+    public boolean updateAppointment(int appointmentId, int staffId, Timestamp newStart, int serviceId) {
         String sql = "UPDATE Appointments SET StaffId = ?, ScheduledAt = ?, ServiceId = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, staffId);
@@ -227,7 +227,6 @@ public boolean updateAppointment(int appointmentId, int staffId, Timestamp newSt
 
         return false;
     }
-   
 
     public Appointment getAppointmentById(int appointmentId) {
         Appointment appointment = null;
@@ -324,7 +323,6 @@ public boolean updateAppointment(int appointmentId, int staffId, Timestamp newSt
         return appointments;
     }
 
-
     public int countAppointments(
             Integer staffId,
             Integer roomId,
@@ -372,8 +370,6 @@ public boolean updateAppointment(int appointmentId, int staffId, Timestamp newSt
             e.printStackTrace();
         }
 
-
-
         return total;
     }
 
@@ -388,6 +384,25 @@ public boolean updateAppointment(int appointmentId, int staffId, Timestamp newSt
             stmt.setTimestamp(5, new Timestamp(appointment.getScheduledAt().getTime()));
             stmt.setString(6, appointment.getStatus());
             stmt.setInt(7, appointment.getId());
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean addAppointment(Appointment appointment) {
+        String sql = "INSERT INTO appointments (userid, serviceid, staffid, roomid, scheduledat, status) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, appointment.getUserId());
+            stmt.setInt(2, appointment.getServiceId());
+            stmt.setInt(3, appointment.getStaffId());
+            stmt.setInt(4, appointment.getRoomId());
+            stmt.setTimestamp(5, new Timestamp(appointment.getScheduledAt().getTime()));
+            stmt.setString(6, appointment.getStatus());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -5,7 +5,9 @@
 package Controller;
 
 import DAO.AppointmentDAO;
+import DAO.DiscountCodeDAO;
 import Model.Appointment;
+import Model.DiscountCode;
 import Model.User;
 import com.google.gson.JsonObject;
 import java.io.IOException;
@@ -54,13 +56,51 @@ public class PaymentController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse respone) throws ServletException, IOException {
+        
+        User currentUser = (User) request.getSession().getAttribute("user");
+
+        if (currentUser == null) {
+            respone.sendRedirect("../login");
+            return;
+        }
+
 
         String amount_raw = request.getParameter("amount");
         int staffId = Integer.parseInt(request.getParameter("staff"));
         int roomId = Integer.parseInt(request.getParameter("room"));
         int serviceId = Integer.parseInt(request.getParameter("serviceId"));
-
         double amount_d = Double.parseDouble(amount_raw);
+        
+        
+        
+        int userId = currentUser.getId();
+
+        if (request.getParameter("discountCodeId") != null && !request.getParameter("discountCodeId").isEmpty()) {
+            int discountCodeId = Integer.parseInt(request.getParameter("discountCodeId"));
+
+            DiscountCodeDAO discountCodeDAO = new DiscountCodeDAO();
+            DiscountCode code = discountCodeDAO.getById(discountCodeId);
+
+            if (code != null) {
+                String discountType = code.getDiscountType();
+                double discountValue = code.getDiscountValue(); // Giả sử là BigDecimal
+
+                if ("Percentage".equals(discountType)) {
+                    amount_d = amount_d - (amount_d * discountValue / 100.0);
+                } else if ("FixedAmount".equals(discountType)) {
+                    amount_d = amount_d - discountValue;
+                }
+
+                // Không cho âm tiền
+                if (amount_d < 0) {
+                    amount_d = 0;
+                }
+            }
+            
+            discountCodeDAO.markDiscountAsUsed(discountCodeId, userId);
+
+        }
+
         int amount = (int) amount_d * 100 * 25000;
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
@@ -136,8 +176,6 @@ public class PaymentController extends HttpServlet {
         } catch (ParseException ex) {
             scheduledAt = new Date();
         }
-        
-        int userId = ((User) request.getSession().getAttribute("user")).getId(); 
 
         Appointment appointment = new Appointment();
         appointment.setUserId(userId);
@@ -147,7 +185,7 @@ public class PaymentController extends HttpServlet {
         appointment.setScheduledAt(scheduledAt);
         appointment.setStatus("Pending");
         appointment.setCreatedAt(new Date()); // set thời gian tạo hiện tại
-        
+
         Config.orderID = appointmentDAO.insertAppointment(appointment);
         respone.sendRedirect(paymentUrl);
 

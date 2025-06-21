@@ -271,6 +271,36 @@ public class UserDAO {
         }
         return userList;
     }
+    
+    public List<User> getAllCustomers() {
+        List<User> userList = new ArrayList<>();
+        String query = "SELECT * FROM [User] where roleid not in (2, 4)";
+        try {
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("ID"));
+                user.setEmail(rs.getString("Email"));
+                user.setPassword(rs.getString("Password"));
+                user.setFullname(rs.getString("Fullname"));
+                user.setGender(rs.getString("Gender"));
+                user.setAddress(rs.getString("Address"));
+                user.setPhone(rs.getString("Phone"));
+                user.setIsDeleted(rs.getBoolean("IsDeleted"));
+                user.setCreatedAt(rs.getDate("CreatedAt"));
+                user.setCreatedBy(rs.getInt("CreatedBy"));
+                user.setAvatar(rs.getString("Avatar"));
+                user.setChangeHistory(rs.getString("ChangeHistory"));
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResources();
+        }
+        return userList;
+    }
 
     // Get all users with pagination
     public List<User> getAllUsers(int pageNumber, int pageSize) {

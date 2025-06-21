@@ -112,6 +112,9 @@
                                         <li onclick="viewPaymentHistory()">
                                             ⟳ History Payment
                                         </li>
+<!--                                        <li onclick="viewPaymentHistory()">
+                                            ⟳ Voucher
+                                        </li>-->
                                         <li onclick="logout()">
                                             <i class="fas fa-sign-out-alt"></i> Logout
                                         </li>

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -31,6 +32,17 @@
         <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
+
+        <style>
+            select.ellipsis option,
+            select.ellipsis {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 100%; /* hoặc giới hạn cụ thể như 250px nếu cần */
+            }
+
+        </style>
     </head>
 
     <body>
@@ -177,7 +189,7 @@
                                 <input type="hidden" name="serviceId" value="${service.id}">
                                 <div class="check-date">
                                     <label for="date-out">Check In:</label>
-                                    <input type="text" class="date-input" name="scheduledAt" id="date-out">
+                                    <input type="text" class="date-input" name="scheduledAt" id="date-out" required>
                                     <i class="icon_calendar"></i>
                                 </div>
                                 <div class="select-option">
@@ -188,15 +200,52 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <div class="select-option">
+                                <div class="select-option ellipsis">
                                     <label for="room">Room:</label>
                                     <select id="room" name="room">
                                         <c:forEach var="room" items="${rooms}">
-                                            <option value="${room.id}">${room.name}</option>
+                                            <option value="${room.id}"
+                                                    ${room.id == selectedRoomId ? 'selected' : ''}>
+                                                <c:choose>
+                                                    <c:when test="${room.id == selectedRoomId && fn:length(room.name) > 20}">
+                                                        ${fn:substring(room.name, 0, 20)}...
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${room.name}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </option>
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <button type="submit">Submit Booking</button>
+
+                                <div class="select-option">
+                                    <label for="guest">Discount Code: </label>
+                                    <select id="code" name="discountCodeId" class="form-control" onchange="updateFinalPrice()">
+                                        <c:choose>
+                                            <c:when test="${empty codes}">
+                                                <option value="">Not have voucher </option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="">Select a voucher</option>
+
+                                                <c:forEach var="c" items="${codes}">
+                                                    <option 
+                                                        value="${c.id}" 
+                                                        data-discount-value="${c.discountValue}" 
+                                                        data-discount-type="${c.discountType}">
+                                                        ${c.code} - ${String.format("%.0f", c.discountValue)}
+                                                        <c:choose>
+                                                            <c:when test="${c.discountType == 'FixedAmount'}">$</c:when>
+                                                            <c:when test="${c.discountType == 'Percentage'}">%</c:when>
+                                                        </c:choose>
+                                                    </option>
+                                                </c:forEach>
+                                            </c:otherwise>
+                                        </c:choose>           
+                                    </select>
+                                </div>
+                                <button type="submit">Submit Booking <span id="finalPrice">${service.price}</span>$</button>
                             </form>
                         </div>
                     </div>
@@ -293,5 +342,37 @@
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
     </body>
+
+    <script>
+                                        const originalPrice = parseFloat(${service.price}); // Giá gốc từ backend
+
+                                        function updateFinalPrice() {
+                                            const select = document.getElementById("code");
+                                            const selected = select.options[select.selectedIndex];
+
+                                            const discountValue = parseFloat(selected.getAttribute("data-discount-value"));
+                                            const discountType = selected.getAttribute("data-discount-type");
+
+                                            let finalPrice = originalPrice;
+
+                                            if (!isNaN(discountValue)) {
+                                                if (discountType === "Percentage") {
+                                                    finalPrice = originalPrice - (originalPrice * discountValue / 100);
+                                                } else if (discountType === "FixedAmount") {
+                                                    finalPrice = originalPrice - discountValue;
+                                                }
+
+                                                // Không để âm giá
+                                                if (finalPrice < 0)
+                                                    finalPrice = 0;
+                                            }
+
+                                            document.getElementById("finalPrice").textContent = finalPrice.toFixed(0); // hoặc `.toFixed(2)`
+                                        }
+
+                                        // Optional: cập nhật khi trang load nếu đã có mã được chọn
+                                        window.addEventListener("DOMContentLoaded", updateFinalPrice);
+    </script>
+
 
 </html>

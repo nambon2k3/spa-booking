@@ -6,9 +6,11 @@ package Controller;
 
 import DAO.AppointmentDAO;
 import DAO.RoomDAO;
+import DAO.SpaServiceDAO;
 import DAO.UserDAO;
 import Model.Appointment;
 import Model.Room;
+import Model.SpaService;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,8 +38,8 @@ public class StaffAppointmentController extends HttpServlet {
         Integer roomId = null;
         Date scheduledFrom = null;
         Date scheduledTo = null;
-        
-         User currentUser = (User) request.getSession().getAttribute("user");
+
+        User currentUser = (User) request.getSession().getAttribute("user");
 
         if (currentUser == null) {
             response.sendRedirect("../login");
@@ -47,7 +49,7 @@ public class StaffAppointmentController extends HttpServlet {
         int staffId = currentUser.getId();
 
         try {
-            
+
             if (request.getParameter("roomId") != null && !request.getParameter("roomId").isEmpty()) {
                 roomId = Integer.valueOf(request.getParameter("roomId"));
             }
@@ -79,10 +81,14 @@ public class StaffAppointmentController extends HttpServlet {
         UserDAO udao = new UserDAO();
 
         List<Appointment> appointments = appointmentDAO.getAppointments(staffId, roomId, scheduledFrom, scheduledTo, page, pageSize);
+        List<User> users = udao.getAllCustomers();
+        List<SpaService> spaServices = new SpaServiceDAO().getActiveSpaServices();
         List<Room> rooms = roomDAO.getAllRooms();
 
         request.setAttribute("appointments", appointments);
         request.setAttribute("rooms", rooms);
+        request.setAttribute("spaServices", spaServices);
+        request.setAttribute("users", users);
         request.setAttribute("staffId", staffId);
         request.setAttribute("roomId", roomId);
         request.setAttribute("scheduledFrom", scheduledFrom);
@@ -100,6 +106,62 @@ public class StaffAppointmentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String action = request.getParameter("action");
+        if (action != null) {
+            switch (action) {
+                case "create":
+                    addAppoinment(request, response);
+                    break;
+                case "update":
+                    updateAppoinment(request, response);
+                    break;
+            }
+        } else {
+            // Handle missing action parameter
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+    }
+
+    private void addAppoinment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+        User currentUser = (User) request.getSession().getAttribute("user");
+
+        if (currentUser == null) {
+            response.sendRedirect("../login");
+            return;
+        }
+
+        int staffId = currentUser.getId();
+        int roomId = Integer.parseInt(request.getParameter("roomId"));
+        String scheduledAtStr = request.getParameter("scheduledAt");
+        String status = request.getParameter("status");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date scheduledAt = new Date();
+        try {
+            scheduledAt = sdf.parse(scheduledAtStr);
+        } catch (ParseException ex) {
+            Logger.getLogger(StaffAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Tạo Appointment object
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userId);
+        appointment.setServiceId(serviceId);
+        appointment.setStaffId(staffId);
+        appointment.setRoomId(roomId);
+        appointment.setScheduledAt(scheduledAt);
+        appointment.setStatus(status);
+
+        AppointmentDAO dao = new AppointmentDAO();
+        boolean success = dao.addAppointment(appointment);
+        response.sendRedirect("appointments" + (success ? "?success" : ""));
+    }
+
+    private void updateAppoinment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("appointmentId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         int serviceId = Integer.parseInt(request.getParameter("serviceId"));
