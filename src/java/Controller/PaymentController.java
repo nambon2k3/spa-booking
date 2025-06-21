@@ -64,6 +64,9 @@ public class PaymentController extends HttpServlet {
             return;
         }
 
+        String paymentMethod = request.getParameter("paymentMethod");
+        
+        
 
         String amount_raw = request.getParameter("amount");
         int staffId = Integer.parseInt(request.getParameter("staff"));
@@ -185,6 +188,12 @@ public class PaymentController extends HttpServlet {
         appointment.setScheduledAt(scheduledAt);
         appointment.setStatus("Pending");
         appointment.setCreatedAt(new Date()); // set thời gian tạo hiện tại
+        
+        
+        if(paymentMethod.equalsIgnoreCase("Direct")) {
+            respone.sendRedirect("../thanks-you.jsp");
+            return;
+        }
 
         Config.orderID = appointmentDAO.insertAppointment(appointment);
         respone.sendRedirect(paymentUrl);

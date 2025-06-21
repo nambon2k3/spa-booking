@@ -245,6 +245,13 @@
                                         </c:choose>           
                                     </select>
                                 </div>
+                                <div class="select-option">
+                                    <label for="payment">Payment Method: </label>
+                                    <select id="payment" name="paymentMethod">
+                                        <option value="VNPAY">VNPAY</option>
+                                        <option value="Direct">Direct</option>
+                                    </select>
+                                </div>
                                 <button type="submit">Submit Booking <span id="finalPrice">${service.price}</span>$</button>
                             </form>
                         </div>
