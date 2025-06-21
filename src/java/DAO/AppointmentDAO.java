@@ -126,6 +126,56 @@ public class AppointmentDAO extends DBContext {
 
         return appointments;
     }
+    
+    public int countAppointments(
+            Integer staffId,
+            Integer roomId,
+            Date scheduledFrom,
+            Date scheduledTo
+    ) {
+        int total = 0;
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM appointments WHERE 1=1");
+
+        if (staffId != null) {
+            sql.append(" AND staffId = ?");
+        }
+        if (roomId != null) {
+            sql.append(" AND roomId = ?");
+        }
+        if (scheduledFrom != null) {
+            sql.append(" AND scheduledAt >= ?");
+        }
+        if (scheduledTo != null) {
+            sql.append(" AND scheduledAt <= ?");
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            if (staffId != null) {
+                stmt.setInt(paramIndex++, staffId);
+            }
+            if (roomId != null) {
+                stmt.setInt(paramIndex++, roomId);
+            }
+            if (scheduledFrom != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledFrom.getTime()));
+            }
+            if (scheduledTo != null) {
+                stmt.setDate(paramIndex++, new java.sql.Date(scheduledTo.getTime()));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
 
     public int countAppointmentsByUserId(int userId, String status) {
         int count = 0;
@@ -151,6 +201,21 @@ public class AppointmentDAO extends DBContext {
 
         return count;
     }
+    
+     public boolean updateStatus(int appointmentId, String status) {
+        String sql = "UPDATE Appointments SET status = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+            stmt.setInt(2, appointmentId);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public List<Appointment> getAppointments() {
         List<Appointment> appointments = new ArrayList<>();
@@ -173,6 +238,28 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
         return appointments;
+    }
+    
+    public boolean updateAppointment(int appointmentId, int staffId, Timestamp newStart, int serviceId) {
+        String sql = "UPDATE Appointments SET StaffId = ?, ScheduledAt = ?, ServiceId = ? WHERE Id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, staffId);
+            stmt.setTimestamp(2, newStart);
+            stmt.setInt(3, serviceId);
+            stmt.setInt(4, appointmentId);
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+//                NotifyDAO.createNotification(staffId, appointmentId, newStart, serviceId);
+                NotifyDAO notifyDAO = new NotifyDAO();
+                notifyDAO.createNotification(staffId, appointmentId, newStart, serviceId);
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public Appointment getAppointmentById(int appointmentId) {

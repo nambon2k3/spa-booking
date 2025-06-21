@@ -601,6 +601,21 @@ public class UserDAO {
         return total;
     }
 
+    
+    
+     public boolean updateLoyaltyPoints(int userId, int newPoints) {
+        String sql = "UPDATE [User] SET loyaltyPoints = loyaltyPoints + ? WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, newPoints);
+            stmt.setInt(2, userId);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // hoặc logging
+            return false;
+        }
+
+    }
 
     public List<User> getStaffList() {
         List<User> staff = new ArrayList<>();
@@ -620,20 +635,11 @@ public class UserDAO {
         }
 
         return staff;
-
-    public boolean updateLoyaltyPoints(int userId, int newPoints) {
-        String sql = "UPDATE [User] SET loyaltyPoints = loyaltyPoints + ? WHERE id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, newPoints);
-            stmt.setInt(2, userId);
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace(); // hoặc logging
-            return false;
-        }
-
+        
+        
     }
+
+   
 
     private void closeResources() {
 
