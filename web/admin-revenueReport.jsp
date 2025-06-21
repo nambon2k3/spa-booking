@@ -103,7 +103,7 @@
         </style>
     </head>
     <body>
-        <%@ include file="marketing-sidebar.jsp" %>
+        <%@ include file="admin-sidebar.jsp" %>
 
         <div class="main-content">
             <h2>Generate Reports</h2>

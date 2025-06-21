@@ -37,7 +37,7 @@
                 </style>
     </head>
     <body>
-            <%@ include file="marketing-sidebar.jsp" %>
+            <%@ include file="admin-sidebar.jsp" %>
             <div class="main-content">
                     <div class="container">
                             <div id="calendar"></div>

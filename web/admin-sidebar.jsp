@@ -56,10 +56,12 @@
 <nav class="sidebar">
     <ul>
         <li><a href="dashboard"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
-        <li><a href="user"><i class="fas fa-users mr-2"></i>Customers</a></li>
-        <li><a href="spa-services"><i class="fas fa-users mr-2"></i>Services</a></li>
+        <li><a href="settingUser"><i class="fas fa-users mr-2"></i>Customers</a></li>
+        <li><a href="settingService"><i class="fas fa-users mr-2"></i>Services</a></li>
         <li><a href="appointments"><i class="fas fa-users mr-2"></i>Appointments</a></li>
         <li><a href="setting"><i class="fas fa-cog mr-2"></i>Settings</a></li>
+        <li><a href="workSchedule"><i class="fas fa-cog mr-2"></i>Work Schedule</a></li>
+         <li><a href="admin-revenueReport.jsp"><i class="fas fa-cog mr-2"></i>Revenue report</a></li>
     </ul>
     <ul class="logout">
         <li class="text-light"><i class="fas fa-users mr-2"></i>${sessionScope.user.fullname}</li>
