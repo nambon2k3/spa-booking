@@ -101,7 +101,7 @@
                 </div>
                 <br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href = '/Spa/admin/addService'">Return</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href = '/Spa/admin/settingService'">Return</button>
                     <button type="submit" class="btn btn-primary">Save Service</button>
                 </div>
             </form>

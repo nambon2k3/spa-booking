@@ -111,7 +111,7 @@
                     <br>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href = '/Spa/admin/setting'">Return</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href = '/Spa/admin/settingUser'">Return</button>
 
                         <button type="submit" class="btn btn-primary">Save Post</button>
                     </div>

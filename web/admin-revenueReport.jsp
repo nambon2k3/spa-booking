@@ -107,7 +107,7 @@
 
         <div class="main-content">
             <h2>Generate Reports</h2>
-            <form action="AdminReportController" method="post">
+            <form action="report" method="post">
                 <div class="mb-3">
                     <label for="reportType" class="form-label">Report Type</label>
                     <select name="reportType" id="reportType" class="form-select" required>
@@ -157,7 +157,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
                     function exportData() {
-                        window.location.href = "AdminExportReport?reportType=${param.reportType}&period=${param.period}";
+                        window.location.href = "export?reportType=${param.reportType}&period=${param.period}";
                     }
         </script>
     </body>

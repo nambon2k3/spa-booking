@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author PCASUS
  */
-@WebServlet(name = "AdminSettingUserStatusController", urlPatterns = {"/admin/setting/user/status"})
+@WebServlet(name = "AdminSettingUserStatusController", urlPatterns = {"/admin/status"})
 public class AdminSettingUserStatusController extends HttpServlet {
 
     /**

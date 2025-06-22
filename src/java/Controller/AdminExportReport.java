@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author PCASUS
  */
-@WebServlet(name = "AdminExportReport", urlPatterns = {"/AdminExportReport"})
+@WebServlet(name = "AdminExportReport", urlPatterns = {"/admin/export"})
 public class AdminExportReport extends HttpServlet {
 
     private ReportDAO reportDAO = new ReportDAO();

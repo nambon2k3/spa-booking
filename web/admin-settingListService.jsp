@@ -121,7 +121,7 @@
                             <div class="form-group" style="margin-left: 10px">
                                 <label for="sortOrderService"></label><br>
                                 <button type="button" class="btn btn-success"
-                                        onclick="window.location.href = '/Spa/admin-settingAddService.jsp'">
+                                        onclick="window.location.href = '/Spa/admin/addService'">
                                     Add New Service
                                 </button>
                             </div>
@@ -164,12 +164,12 @@
                                 </c:choose>
                             </td>
                             <td>
-                                <a class="btn btn-info btn-sm" href="/Spa/admin/setting/service?id=${service.id}">Edit</a>
+                                <a class="btn btn-info btn-sm" href="/Spa/admin/settingservice?id=${service.id}">Edit</a>
                                 <c:if test="${service.isActive()}">
-                                    <a href="/Spa/admin/setting/service/status?id=${service.id}&isActive=1" class="btn btn-danger btn-sm">Hide</a>
+                                    <a href="/Spa/admin/servicestatus?id=${service.id}&isActive=1" class="btn btn-danger btn-sm">Hide</a>
                                 </c:if>
                                 <c:if test="${!service.isActive()}">
-                                    <a href="/Spa/admin/setting/service/status?id=${service.id}&isActive=0" class="btn btn-success btn-sm">Show</a>
+                                    <a href="/Spa/admin/servicestatus?id=${service.id}&isActive=0" class="btn btn-success btn-sm">Show</a>
                                 </c:if>
                             </td>
                         </tr>
@@ -181,17 +181,17 @@
                 <ul class="pagination">
                     <c:if test="${pageService > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/admin/setting?pageService=${pageService - 1}&tab=service">Prev</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/admin/settingService?pageService=${pageService - 1}&tab=service">Prev</a>
                         </li>
                     </c:if>
                     <c:forEach var="i" begin="1" end="${totalPagesService}">
                         <li class="page-item ${pageService == i ? 'active' : ''}">
-                            <a class="page-link" href="${pageContext.request.contextPath}/admin/setting?pageService=${i}&tab=service">${i}</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/admin/settingService?pageService=${i}&tab=service">${i}</a>
                         </li>
                     </c:forEach>
                     <c:if test="${pageService < totalPagesService}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/admin/setting?pageService=${pageService + 1}&tab=service">Next</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/admin/settingService?pageService=${pageService + 1}&tab=service">Next</a>
                         </li>
                     </c:if>
                 </ul>
