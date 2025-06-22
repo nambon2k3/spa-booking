@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/src/java/Controller/AdminSettingAddUserController.java</file>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/web/header.jsp</file>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/src/java/Controller/AdminSettingUserController.java</file>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/web/admin-settingAddUser.jsp</file>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/web/admin-feedback.jsp</file>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/web/admin-settingListUser.jsp</file>
-            <file>file:/D:/SP_SU25/spav1/spa-booking/web/admin-discount-code.jsp</file>
+            <file>file:/D:/SP_SU25/spav1/spa-booking/src/java/DAO/RoleDAO.java</file>
+            <file>file:/D:/SP_SU25/spav1/spa-booking/web/admin-roles.jsp</file>
+            <file>file:/D:/SP_SU25/spav1/spa-booking/src/java/Controller/AdminRoleController.java</file>
+            <file>file:/D:/SP_SU25/spav1/spa-booking/src/java/DAO/InvoiceDAO.java</file>
         </group>
     </open-files>
 </project-private>
