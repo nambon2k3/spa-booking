@@ -150,12 +150,12 @@
 
                             </td>
                             <td>
-                                <a class="btn btn-info btn-sm" href="/Spa/admin/setting/user?id=${user.id}">Edit</a>
+                                <a class="btn btn-info btn-sm" href="/Spa/admin/setting?id=${user.id}">Edit</a>
                                 <c:if test="${!user.isDeleted}">
-                                    <a href="/Spa/admin/setting/user/status?id=${user.id}&isDeleted=1" class="btn btn-danger btn-sm">Hide</a>
+                                    <a href="/Spa/admin/status?id=${user.id}&isDeleted=1" class="btn btn-danger btn-sm">Hide</a>
                                 </c:if>
                                 <c:if test="${user.isDeleted}">
-                                    <a href="/Spa/admin/setting/user/status?id=${user.id}&isDeleted=0" class="btn btn-success btn-sm">Show</a>
+                                    <a href="/Spa/admin/status?id=${user.id}&isDeleted=0" class="btn btn-success btn-sm">Show</a>
                                 </c:if>
                             </td>
                         </tr>
@@ -167,17 +167,17 @@
                 <ul class="pagination">
                     <c:if test="${pageUser > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/admin/setting?pageUser=${pageUser - 1}&tab=user">Prev</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/admin/settingUser?pageUser=${pageUser - 1}&tab=user">Prev</a>
                         </li>
                     </c:if>
                     <c:forEach var="i" begin="1" end="${totalPagesUser}">
                         <li class="page-item ${pageUser == i ? 'active' : ''}">
-                            <a class="page-link" href="${pageContext.request.contextPath}/admin/setting?pageUser=${i}&tab=user">${i}</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/admin/settingUser?pageUser=${i}&tab=user">${i}</a>
                         </li>
                     </c:forEach>
                     <c:if test="${pageUser < totalPagesUser}">
                         <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/admin/setting?pageUser=${pageUser + 1}&tab=user">Next</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/admin/settingUser?pageUser=${pageUser + 1}&tab=user">Next</a>
                         </li>
                     </c:if>
                 </ul>

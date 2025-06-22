@@ -53,7 +53,7 @@
                 Service Detail
             </div>
 
-            <form method="post" action="/Spa/admin/setting/service" enctype="multipart/form-data">
+            <form method="post" action="/Spa/admin/settingservice" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addServiceModalLabel">View Service</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -109,7 +109,7 @@
                 </div>
                 <br>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href = '/Spa/admin/setting'">Return</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href = '/Spa/admin/settingService'">Return</button>
                     <button type="submit" class="btn btn-primary">Save Service</button>
                 </div>
             </form>

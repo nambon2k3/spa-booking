@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Servlet xử lý các báo cáo quản trị.
  */
-@WebServlet(name = "AdminReportController", urlPatterns = {"/AdminReportController"})
+@WebServlet(name = "AdminReportController", urlPatterns = {"/admin/report"})
 public class AdminReportController extends HttpServlet {
 
     private final ReportDAO reportDAO = new ReportDAO();
@@ -29,7 +29,8 @@ public class AdminReportController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        request.getRequestDispatcher("/admin-revenueReport.jsp").forward(request, response);
     }
 
     @Override

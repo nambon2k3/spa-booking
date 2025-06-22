@@ -25,7 +25,7 @@ import java.math.BigDecimal;
  *
  * @author PCASUS
  */
-@WebServlet(name = "AdminSettingServiceController", urlPatterns = {"/admin/setting/service"})
+@WebServlet(name = "AdminSettingServiceController", urlPatterns = {"/admin/settingservice"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024, // 1MB
         maxFileSize = 1024 * 1024 * 5, // 5MB

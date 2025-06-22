@@ -24,7 +24,7 @@ import java.io.InputStream;
  *
  * @author PCASUS
  */
-@WebServlet(name = "AdminSettingUserController", urlPatterns = {"/admin/setting/user"})
+@WebServlet(name = "AdminSettingUserController", urlPatterns = {"/admin/setting"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024, // 1MB
         maxFileSize = 1024 * 1024 * 5, // 5MB

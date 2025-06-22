@@ -102,7 +102,7 @@ public class AdminSettingAddUserController extends HttpServlet {
             user.setFullname(fullname);
             user.setAddress(address);
             user.setPhone(phone);
-            user.setGender(gender.equals("male") ? "1" : "0");
+            user.setGender(gender);
             user.setRoleId(roleId);
             String password = generateRandomPassword(8);
             user.setPassword(password);
@@ -133,9 +133,9 @@ public class AdminSettingAddUserController extends HttpServlet {
                 log("Error while updating plant: " + e.toString());
                 request.setAttribute("isSuccess", false);
             }
-            request.setAttribute("isSuccess", true);
+          
             
-            response.sendRedirect("add?fail");
+            response.sendRedirect("add?success");
 
         }
     }
