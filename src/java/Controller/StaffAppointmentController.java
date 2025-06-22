@@ -165,7 +165,12 @@ public class StaffAppointmentController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("appointmentId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
         int serviceId = Integer.parseInt(request.getParameter("serviceId"));
-        int staffId = Integer.parseInt(request.getParameter("staffId"));
+        User currentUser = (User) request.getSession().getAttribute("user");
+
+        if (currentUser == null) {
+            response.sendRedirect("../login");
+            return;
+        }
         int roomId = Integer.parseInt(request.getParameter("roomId"));
         String scheduledAtStr = request.getParameter("scheduledAt");
         String status = request.getParameter("status");
@@ -184,7 +189,7 @@ public class StaffAppointmentController extends HttpServlet {
         appointment.setId(id);
         appointment.setUserId(userId);
         appointment.setServiceId(serviceId);
-        appointment.setStaffId(staffId);
+        appointment.setStaffId(currentUser.getId());
         appointment.setRoomId(roomId);
         appointment.setScheduledAt(scheduledAt);
         appointment.setStatus(status);
